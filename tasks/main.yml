@@ -69,7 +69,7 @@
 
 - name: Add debug
   become: True
-  command: "pip install shinken -upgrade -vvv"
+  command: "pip install shinken --upgrade -vvv"
   register: travis_debug3
 
 - name: Add debug
