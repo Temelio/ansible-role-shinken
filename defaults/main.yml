@@ -2,3 +2,17 @@
 
 # Defaults vars file for shinken role
 
+# Shinken general settings
+shinken_system_dependencies_state: present
+shinken_pip_package_name: 'shinken'
+shinken_pip_package_state: 'present'
+shinken_pip_package_version: '2.4.2'
+
+# Shinken user settings
+shinken_user_group: 'shinken'
+shinken_user_home: '/var/lib/shinken'
+shinken_user_name: 'shinken'
+shinken_user_password: 'shinken'
+shinken_user_shell: '/bin/bash'
+shinken_user_update_password: 'always'
+

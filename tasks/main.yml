@@ -2,3 +2,58 @@
 
 # Main tasks file for shinken role
 
+- name: Load distribution variables
+  include_vars: "{{ role_path }}/vars/{{ ansible_distribution | lower }}.yml"
+  tags:
+    - shinken
+    - install
+
+
+- name: Create shinken group
+  become: True
+  group:
+    name: "{{ shinken_user_group }}"
+    state: present
+    system: False
+  tags:
+    - shinken
+    - install
+
+
+- name: Create shinken user
+  become: True
+  user:
+    name: "{{ shinken_user_name }}"
+    group: "{{ shinken_user_group }}"
+    home: "{{ shinken_user_home }}"
+    password: "{{ shinken_user_password }}"
+    shell: "{{ shinken_user_shell }}"
+    state: present
+    system: False
+    update_password: "{{ shinken_user_update_password }}"
+  tags:
+    - shinken
+    - install
+
+
+- name: Install shinken system dependencies
+  become: True
+  package:
+    name: "{{ item }}"
+    state: "{{ shinken_system_dependencies_state }}"
+  with_items: "{{ shinken_system_dependencies }}"
+  tags:
+    - shinken
+    - install
+
+
+- name: Install shinken pip package
+  become: True
+  pip:
+    name: "{{ shinken_pip_package_name }}"
+    state: "{{ shinken_pip_package_state }}"
+    version: "{{ shinken_pip_package_version }}"
+  tags:
+    - shinken
+    - install
+

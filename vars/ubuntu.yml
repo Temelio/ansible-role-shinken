@@ -1,0 +1,10 @@
+---
+
+# Ubuntu specific vars
+
+shinken_system_dependencies:
+  - nagios-plugins
+  - python-pip
+  - python-pycurl
+  - python-setuptools
+
