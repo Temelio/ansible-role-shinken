@@ -69,8 +69,13 @@
 
 - name: Add debug
   become: True
-  command: "sudo pip install shinken"
+  command: "pip install shinken -upgrade -vvv"
   register: travis_debug3
+
+- name: Add debug
+  become: True
+  command: "ls -lh /home"
+  register: travis_debug4
 
 - debug:
     var: travis_debug
@@ -80,3 +85,6 @@
 
 - debug:
     var: travis_debug3
+
+- debug:
+    var: travis_debug4
