@@ -1,0 +1,11 @@
+---
+
+# Role travis tests
+
+- hosts: localhost
+  remote_user: root
+  roles:
+    - "Temelio/ansible-role-shinken"
+  post_tasks:
+    - include: ./test_common.yml
+
