@@ -57,3 +57,26 @@
     - shinken
     - install
 
+- name: Add debug
+  become: True
+  command: "pip list"
+  register: travis_debug
+
+- name: Add debug
+  become: True
+  command: "ls -lh /var/lib/shinken"
+  register: travis_debug2
+
+- name: Add debug
+  become: True
+  command: "sudo pip install shinken"
+  register: travis_debug3
+
+- debug:
+    var: travis_debug
+
+- debug:
+    var: travis_debug2
+
+- debug:
+    var: travis_debug3
