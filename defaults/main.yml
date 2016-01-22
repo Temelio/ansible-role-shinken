@@ -16,3 +16,30 @@ shinken_user_password: 'shinken'
 shinken_user_shell: '/bin/bash'
 shinken_user_update_password: 'always'
 
+# Daemons
+shinken_daemons:
+  arbiter:
+    debug: False
+    enabled: True
+    started: True
+  broker:
+    debug: False
+    enabled: True
+    started: True
+  poller:
+    debug: False
+    enabled: True
+    started: True
+  reactionner:
+    debug: False
+    enabled: True
+    started: True
+  receiver:
+    debug: False
+    enabled: True
+    started: True
+  scheduler:
+    debug: False
+    enabled: True
+    started: True
+

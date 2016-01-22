@@ -57,3 +57,11 @@
     - shinken
     - install
 
+
+- name: Configure daemon start
+  become: True
+  service:
+    name: "shinken-{{ item.key }}"
+    enabled: "{{ item.value.enabled }}"
+  with_dict: shinken_daemons
+

@@ -44,6 +44,16 @@ if ['debian', 'ubuntu'].include?(os[:family])
                 expect(file(dir_name)).to be_directory
             end
         end
+
+        it 'configure daemon startup' do
+            services = Array[ 'shinken-arbiter', 'shinken-broker',
+                              'shinken-poller', 'shinken-reactionner',
+                              'shinken-receiver', 'shinken-scheduler' ]
+
+            services.each do |service_name|
+                expect(service(service_name)).to be_enabled
+            end
+        end
     end
 end
 
