@@ -2,3 +2,12 @@
 
 # Handlers main file for shinken role
 
+- name: Restart Shinken
+  become: True
+  service:
+    name: "shinken-{{ item.key }}"
+    state: 'restarted'
+  with_dict: "{{ shinken_daemons }}"
+  when:
+    - "{{ item.value.started }}"
+

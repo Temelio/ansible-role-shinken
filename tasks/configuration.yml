@@ -18,4 +18,5 @@
     owner: "{{ shinken_user_name }}"
     group: "{{ shinken_user_group }}"
     mode: "{{ shinken_config_files_mode }}"
+  notify: 'Restart Shinken'
 
