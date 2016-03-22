@@ -4,9 +4,10 @@
 
 # Shinken general settings
 shinken_system_dependencies_state: 'present'
-shinken_pip_package_name: 'shinken'
-shinken_pip_package_state: 'present'
-shinken_pip_package_version: '2.4.3'
+shinken_pip_packages:
+  - name: 'shinken'
+    state: 'present'
+    version: '2.4.3'
 
 # Shinken user settings
 shinken_user_group: 'shinken'

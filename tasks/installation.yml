@@ -32,13 +32,14 @@
   with_items: "{{ shinken_system_dependencies }}"
 
 
-- name: Install shinken pip package
+- name: Install shinken pip packages
   become: True
   pip:
-    name: "{{ shinken_pip_package_name }}"
-    state: "{{ shinken_pip_package_state }}"
-    version: "{{ shinken_pip_package_version }}"
+    name: "{{ item.name }}"
+    state: "{{ item.state }}"
+    version: "{{ item.version }}"
   register: 'shinken_pip_packages_install'
+  with_items: "{{ shinken_pip_packages }}"
 
 
 - name: Configure daemon start
