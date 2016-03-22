@@ -3,8 +3,12 @@
 # Ubuntu specific vars
 
 shinken_system_dependencies:
-  - nagios-plugins
-  - python-pip
-  - python-pycurl
-  - python-setuptools
+  - name: 'nagios-plugins'
+    state: "{{ shinken_system_dependencies_state }}"
+  - name: 'python-pip'
+    state: "{{ shinken_system_dependencies_state }}"
+  - name: 'python-pycurl'
+    state: "{{ shinken_system_dependencies_state }}"
+  - name: 'python-setuptools'
+    state: "{{ shinken_system_dependencies_state }}"
 

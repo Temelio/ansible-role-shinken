@@ -9,6 +9,10 @@ shinken_pip_packages:
     state: 'present'
     version: '2.4.3'
 
+# Used to manage module dependencies (system and pip)
+shinken_pip_additional_packages: []
+shinken_system_additional_packages: []
+
 # Shinken user settings
 shinken_user_group: 'shinken'
 shinken_user_home: '/var/lib/shinken'
@@ -51,6 +55,8 @@ shinken_daemons:
     enabled: True
     started: True
 
+# Modules
+shinken_modules: []
 
 # Main configuration file
 #------------------------
@@ -117,3 +123,4 @@ shinken_main_config_statsd_host: 'localhost'
 shinken_main_config_statsd_port: 8125
 shinken_main_config_statsd_prefix: 'shinken'
 shinken_main_config_statsd_enabled: 0
+
