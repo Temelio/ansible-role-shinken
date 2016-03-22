@@ -27,7 +27,7 @@ if ['debian', 'ubuntu'].include?(os[:family])
         end
 
         describe command('pip list') do
-          its(:stdout) { should match /Shinken \(2.4.2\)/ }
+          its(:stdout) { should match /Shinken \(2.4.3\)/ }
         end
 
         it 'create Shinken structure' do
