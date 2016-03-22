@@ -1,0 +1,28 @@
+require 'serverspec'
+
+if ENV['TRAVIS']
+    set :backend, :exec
+end
+
+describe 'shinken Ansible role configuration' do
+
+    # Define variables
+    shinken_group = ''
+    shinken_home = ''
+    shinken_user = ''
+
+    if ['debian', 'ubuntu'].include?(os[:family])
+        shinken_group = 'shinken'
+        shinken_home = '/var/lib/shinken'
+        shinken_user = 'shinken'
+    end
+
+    # Shinken is initialized
+    describe file("#{shinken_home}/.shinken.ini") do
+        it { should exist }
+        it { should be_file }
+        it { should be_owned_by shinken_user  }
+        it { should be_grouped_into shinken_group  }
+    end
+end
+

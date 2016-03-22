@@ -15,3 +15,10 @@
     - 'shinken'
     - 'install'
 
+
+- name: Manage Shinken configuration tasks
+  include: "{{ role_path }}/tasks/configuration.yml"
+  tags:
+    - 'shinken'
+    - 'configuration'
+
