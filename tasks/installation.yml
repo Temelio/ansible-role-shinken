@@ -50,7 +50,7 @@
   with_dict: "{{ shinken_daemons }}"
 
 
-- name: Stop daemon state is good
+- name: Check daemon state is good
   become: True
   service:
     name: "shinken-{{ item.key }}"
