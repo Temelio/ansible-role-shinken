@@ -41,6 +41,7 @@
   package:
     name: "{{ item }}"
     state: "{{ shinken_system_dependencies_state }}"
+  register: 'shinken_system_packages_install'
   with_items: "{{ shinken_system_dependencies }}"
   tags:
     - 'shinken'
@@ -53,6 +54,7 @@
     name: "{{ shinken_pip_package_name }}"
     state: "{{ shinken_pip_package_state }}"
     version: "{{ shinken_pip_package_version }}"
+  register: 'shinken_pip_packages_install'
   tags:
     - 'shinken'
     - 'install'
@@ -64,4 +66,34 @@
     name: "shinken-{{ item.key }}"
     enabled: "{{ item.value.enabled }}"
   with_dict: "{{ shinken_daemons }}"
+  tags:
+    - 'shinken'
+    - 'install'
+
+
+- name: Stop daemon state is good
+  become: True
+  service:
+    name: "shinken-{{ item.key }}"
+    state: "{{ item.value.started | ternary('started', 'stopped') }}"
+  with_dict: "{{ shinken_daemons }}"
+  tags:
+    - 'shinken'
+    - 'install'
+
+
+- name: Restart daemon if packages changed
+  become: True
+  service:
+    name: "shinken-{{ item.key }}"
+    enabled: "{{ item.value.enabled }}"
+    state: 'restarted'
+  with_dict: "{{ shinken_daemons }}"
+  when:
+    - "{{ shinken_system_packages_install.changed
+          or shinken_pip_packages_install.changed }}"
+    - "{{ item.value.started }}"
+  tags:
+    - 'shinken'
+    - 'install'
 
