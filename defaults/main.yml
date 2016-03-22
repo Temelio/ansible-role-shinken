@@ -3,7 +3,7 @@
 # Defaults vars file for shinken role
 
 # Shinken general settings
-shinken_system_dependencies_state: present
+shinken_system_dependencies_state: 'present'
 shinken_pip_package_name: 'shinken'
 shinken_pip_package_state: 'present'
 shinken_pip_package_version: '2.4.2'

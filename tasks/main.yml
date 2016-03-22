@@ -5,19 +5,19 @@
 - name: Load distribution variables
   include_vars: "{{ role_path }}/vars/{{ ansible_distribution | lower }}.yml"
   tags:
-    - shinken
-    - install
+    - 'shinken'
+    - 'install'
 
 
 - name: Create shinken group
   become: True
   group:
     name: "{{ shinken_user_group }}"
-    state: present
+    state: 'present'
     system: False
   tags:
-    - shinken
-    - install
+    - 'shinken'
+    - 'install'
 
 
 - name: Create shinken user
@@ -28,12 +28,12 @@
     home: "{{ shinken_user_home }}"
     password: "{{ shinken_user_password }}"
     shell: "{{ shinken_user_shell }}"
-    state: present
+    state: 'present'
     system: False
     update_password: "{{ shinken_user_update_password }}"
   tags:
-    - shinken
-    - install
+    - 'shinken'
+    - 'install'
 
 
 - name: Install shinken system dependencies
@@ -43,8 +43,8 @@
     state: "{{ shinken_system_dependencies_state }}"
   with_items: "{{ shinken_system_dependencies }}"
   tags:
-    - shinken
-    - install
+    - 'shinken'
+    - 'install'
 
 
 - name: Install shinken pip package
@@ -54,8 +54,8 @@
     state: "{{ shinken_pip_package_state }}"
     version: "{{ shinken_pip_package_version }}"
   tags:
-    - shinken
-    - install
+    - 'shinken'
+    - 'install'
 
 
 - name: Configure daemon start
@@ -63,5 +63,5 @@
   service:
     name: "shinken-{{ item.key }}"
     enabled: "{{ item.value.enabled }}"
-  with_dict: shinken_daemons
+  with_dict: "{{ shinken_daemons }}"
 
