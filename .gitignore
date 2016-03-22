@@ -9,6 +9,7 @@
 
 # Vagrant
 .vagrant
+tests/test_vagrant.retry
 
 # Bundle
 .bundle
