@@ -50,14 +50,6 @@
   with_dict: "{{ shinken_daemons }}"
 
 
-- name: Check daemon state is good
-  become: True
-  service:
-    name: "shinken-{{ item.key }}"
-    state: "{{ item.value.started | ternary('started', 'stopped') }}"
-  with_dict: "{{ shinken_daemons }}"
-
-
 - name: Restart daemon if packages changed
   become: True
   service:
@@ -69,4 +61,12 @@
     - "{{ shinken_system_packages_install.changed
           or shinken_pip_packages_install.changed }}"
     - "{{ item.value.started }}"
+
+
+- name: Check daemon state is good
+  become: True
+  service:
+    name: "shinken-{{ item.key }}"
+    state: "{{ item.value.started | ternary('started', 'stopped') }}"
+  with_dict: "{{ shinken_daemons }}"
 
