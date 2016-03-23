@@ -162,6 +162,21 @@ shinken_schedulers:
     hard_ssl_name_check: 0
     realm: 'All'
 
+# Shinken arbiters
+shinken_arbiters:
+  - name: 'arbiter-master'
+    hostname: ''
+    address: '127.0.0.1'
+    port: 7770
+    spare: 0
+    timeout: 3
+    data_timeout: 120
+    max_check_attempts: 3
+    check_interval: 60
+    modules: []
+    use_ssl: 0
+    hard_ssl_name_check: 0
+
 # Shinken contacts
 shinken_contacts:
   - contact_name: 'admin'

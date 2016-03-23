@@ -45,6 +45,18 @@
   with_items: "{{ shinken_schedulers }}"
 
 
+- name: Generate arbiters configuration files
+  become: True
+  template:
+    src: "{{ role_path }}/templates/arbiter.cfg.j2"
+    dest: "{{ shinken_paths_etc }}/arbiters/{{ item.name }}.cfg"
+    owner: "{{ shinken_user_name }}"
+    group: "{{ shinken_user_group }}"
+    mode: "{{ shinken_config_files_mode }}"
+  notify: 'Restart Shinken'
+  with_items: "{{ shinken_arbiters }}"
+
+
 - name: Generate contacts configuration files
   become: True
   template:
