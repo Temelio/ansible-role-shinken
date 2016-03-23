@@ -23,56 +23,56 @@ describe 'shinken Ansible role configuration' do
     describe file("#{shinken_home}/.shinken.ini") do
         it { should exist }
         it { should be_file }
-        it { should be_owned_by shinken_user  }
-        it { should be_grouped_into shinken_group  }
+        it { should be_owned_by shinken_user }
+        it { should be_grouped_into shinken_group }
     end
 
     # Main configuration file
     describe file("#{shinken_path_etc}/shinken.cfg") do
         it { should exist }
         it { should be_file }
-        it { should be_owned_by shinken_user  }
-        it { should be_grouped_into shinken_group  }
+        it { should be_owned_by shinken_user }
+        it { should be_grouped_into shinken_group }
     end
 
     # Broker configuration file
     describe file("#{shinken_path_etc}/brokers/broker-master.cfg") do
         it { should exist }
         it { should be_file }
-        it { should be_owned_by shinken_user  }
-        it { should be_grouped_into shinken_group  }
+        it { should be_owned_by shinken_user }
+        it { should be_grouped_into shinken_group }
     end
 
     # Scheduler configuration file
     describe file("#{shinken_path_etc}/schedulers/scheduler-master.cfg") do
         it { should exist }
         it { should be_file }
-        it { should be_owned_by shinken_user  }
-        it { should be_grouped_into shinken_group  }
+        it { should be_owned_by shinken_user }
+        it { should be_grouped_into shinken_group }
     end
 
     # Arbiter configuration file
     describe file("#{shinken_path_etc}/arbiters/arbiter-master.cfg") do
         it { should exist }
         it { should be_file }
-        it { should be_owned_by shinken_user  }
-        it { should be_grouped_into shinken_group  }
+        it { should be_owned_by shinken_user }
+        it { should be_grouped_into shinken_group }
     end
 
     # Contact configuration file
     describe file("#{shinken_path_etc}/contacts/admin.cfg") do
         it { should exist }
         it { should be_file }
-        it { should be_owned_by shinken_user  }
-        it { should be_grouped_into shinken_group  }
+        it { should be_owned_by shinken_user }
+        it { should be_grouped_into shinken_group }
     end
 
     # Contactgroup configuration file
     describe file("#{shinken_path_etc}/contactgroups/admins.cfg") do
         it { should exist }
         it { should be_file }
-        it { should be_owned_by shinken_user  }
-        it { should be_grouped_into shinken_group  }
+        it { should be_owned_by shinken_user }
+        it { should be_grouped_into shinken_group }
     end
 
     # Hostgroup configuration file
