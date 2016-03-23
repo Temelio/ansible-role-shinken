@@ -36,6 +36,55 @@ This role contains two tests methods :
 
 ### Default role variables
 
+    # Shinken general settings
+    shinken_system_dependencies_state: present
+    shinken_pip_package_name: 'shinken'
+    shinken_pip_package_state: 'present'
+    shinken_pip_package_version: '2.4.2'
+
+    # Shinken user settings
+    shinken_user_group: 'shinken'
+    shinken_user_home: '/var/lib/shinken'
+    shinken_user_name: 'shinken'
+    shinken_user_password: 'shinken'
+    shinken_user_shell: '/bin/bash'
+    shinken_user_update_password: 'always'
+
+    # Daemons
+    shinken_daemons:
+      arbiter:
+        debug: False
+        enabled: True
+        started: True
+      broker:
+        debug: False
+        enabled: True
+        started: True
+      poller:
+        debug: False
+        enabled: True
+        started: True
+      reactionner:
+        debug: False
+        enabled: True
+        started: True
+      receiver:
+        debug: False
+        enabled: True
+        started: True
+      scheduler:
+        debug: False
+        enabled: True
+        started: True
+
+### Specific ubuntu variables
+
+    shinken_system_dependencies:
+      - nagios-plugins
+      - python-pip
+      - python-pycurl
+      - python-setuptools
+
 ## Dependencies
 
 None

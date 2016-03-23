@@ -2,3 +2,23 @@
 
 # Main tasks file for shinken role
 
+- name: Load distribution variables
+  include_vars: "{{ role_path }}/vars/{{ ansible_distribution | lower }}.yml"
+  tags:
+    - 'shinken'
+    - 'install'
+
+
+- name: Manage Shinken installation tasks
+  include: "{{ role_path }}/tasks/installation.yml"
+  tags:
+    - 'shinken'
+    - 'install'
+
+
+- name: Manage Shinken configuration tasks
+  include: "{{ role_path }}/tasks/configuration.yml"
+  tags:
+    - 'shinken'
+    - 'configuration'
+

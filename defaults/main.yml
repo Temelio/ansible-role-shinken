@@ -2,3 +2,160 @@
 
 # Defaults vars file for shinken role
 
+# Shinken general settings
+shinken_system_dependencies_state: 'present'
+shinken_pip_packages:
+  - name: 'shinken'
+    state: 'present'
+    version: '2.4.3'
+
+# Used to manage module dependencies (system and pip)
+shinken_pip_additional_packages: []
+shinken_system_additional_packages: []
+
+# Shinken user settings
+shinken_user_group: 'shinken'
+shinken_user_home: '/var/lib/shinken'
+shinken_user_name: 'shinken'
+shinken_user_password: 'shinken'
+shinken_user_shell: '/bin/bash'
+shinken_user_update_password: 'always'
+
+# Shinken paths
+shinken_paths_etc: '/etc/shinken'
+shinken_paths_run: '/var/run/shinken'
+shinken_paths_log: '/var/log/shinken'
+
+shinken_config_files_mode: '0600'
+
+# Daemons
+shinken_daemons:
+  arbiter:
+    debug: False
+    enabled: True
+    started: True
+  broker:
+    debug: False
+    enabled: True
+    started: True
+  poller:
+    debug: False
+    enabled: True
+    started: True
+  reactionner:
+    debug: False
+    enabled: True
+    started: True
+  receiver:
+    debug: False
+    enabled: True
+    started: True
+  scheduler:
+    debug: False
+    enabled: True
+    started: True
+
+# Modules
+shinken_modules: []
+
+# Main configuration file
+#------------------------
+shinken_main_config_directories:
+  - 'commands'
+  - 'timeperiods'
+  - 'escalations'
+  - 'dependencies'
+  - 'templates'
+  - 'notificationways'
+  - 'servicegroups'
+  - 'hostgroups'
+  - 'contactgroups'
+  - 'hosts'
+  - 'services'
+  - 'contacts'
+  - 'packs'
+  - 'modules'
+  - 'arbiters'
+  - 'schedulers'
+  - 'pollers'
+  - 'reactionners'
+  - 'brokers'
+  - 'receivers'
+  - 'realms'
+  - 'resource.d'
+
+shinken_main_config_retention_update_interval: 60
+shinken_main_config_max_service_check_spread: 5
+shinken_main_config_max_host_check_spread: 5
+shinken_main_config_service_check_timeout: 60
+shinken_main_config_timeout_exit_status: 2
+shinken_main_config_flap_history: 20
+shinken_main_config_max_plugins_output_length: 65536
+shinken_main_config_enable_problem_impacts_states_change: 1
+shinken_main_config_disable_old_nagios_parameters_whining: 0
+shinken_main_config_use_timezone: ''
+shinken_main_config_enable_environment_macros: 0
+shinken_main_config_log_initial_states: 0
+shinken_main_config_no_event_handlers_during_downtimes: 1
+shinken_main_config_pack_distribution_file: "{{ shinken_user_home }}/pack_distribution.dat"
+shinken_main_config_workdir: "{{ shinken_user_home }}/"
+shinken_main_config_lock_file: "{{ shinken_paths_run }}/arbiterd.pid"
+shinken_main_config_local_log: "{{ shinken_paths_log }}/arbiterd.log"
+shinken_main_config_log_level: 'WARNING'
+shinken_main_config_use_custom_arbiter_user: False
+shinken_main_config_custom_arbiter_user: 'shinken'
+shinken_main_config_custom_arbiter_group: 'shinken'
+shinken_main_config_modules_dir: "{{ shinken_user_home }}/modules"
+shinken_main_config_daemon_enabled: 1
+shinken_main_config_use_ssl: 0
+shinken_main_config_ca_cert: "{{ shinken_paths_etc }}/certs/ca.pem"
+shinken_main_config_server_cert: "{{ shinken_paths_etc }}/certs/server.cert"
+shinken_main_config_server_key: "{{ shinken_paths_etc }}/certs/server.key"
+shinken_main_config_hard_ssl_name_check: 0
+shinken_main_config_http_backend: 'auto'
+
+shinken_main_config_use_shinken_io: False
+shinken_main_config_shinken_io_api_key: ''
+shinken_main_config_shinken_io_secret: ''
+shinken_main_config_shinken_io_http_proxy: ''
+
+shinken_main_config_statsd_host: 'localhost'
+shinken_main_config_statsd_port: 8125
+shinken_main_config_statsd_prefix: 'shinken'
+shinken_main_config_statsd_enabled: 0
+
+# Shinken brokers
+shinken_brokers:
+  - name: 'broker-master'
+    address: '127.0.0.1'
+    port: 7772
+    spare: 0
+    manage_arbiters: 1
+    manage_sub_realms: 1
+    timeout: 3
+    data_timeout: 120
+    max_check_attempts: 3
+    check_interval: 60
+    modules: []
+    use_ssl: 0
+    hard_ssl_name_check: 0
+    realm: 'All'
+
+# Shinken schedulers
+shinken_schedulers:
+  - name: 'scheduler-master'
+    address: '127.0.0.1'
+    port: 7768
+    spare: 0
+    weight: 1
+    timeout: 3
+    data_timeout: 120
+    max_check_attempts: 3
+    check_interval: 60
+    modules: []
+    satellitemap: []
+    skip_initial_broks: 0
+    use_ssl: 0
+    hard_ssl_name_check: 0
+    realm: 'All'
+

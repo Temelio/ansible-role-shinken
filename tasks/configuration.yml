@@ -1,0 +1,46 @@
+---
+
+# All configuration tasks
+
+- name: Check if Shinken initialized
+  become: True
+  shell: "su - {{ shinken_user_name }} -c '/usr/bin/shinken --init'"
+  args:
+    creates: "{{ shinken_user_home }}/.shinken.ini"
+  register: 'shinken_check_initialize'
+
+
+- name: Generate main configuration file
+  become: True
+  template:
+    src: "{{ role_path }}/templates/shinken.cfg.j2"
+    dest: "{{ shinken_paths_etc }}/shinken.cfg"
+    owner: "{{ shinken_user_name }}"
+    group: "{{ shinken_user_group }}"
+    mode: "{{ shinken_config_files_mode }}"
+  notify: 'Restart Shinken'
+
+
+- name: Generate brokers configuration files
+  become: True
+  template:
+    src: "{{ role_path }}/templates/broker.cfg.j2"
+    dest: "{{ shinken_paths_etc }}/brokers/{{ item.name }}.cfg"
+    owner: "{{ shinken_user_name }}"
+    group: "{{ shinken_user_group }}"
+    mode: "{{ shinken_config_files_mode }}"
+  notify: 'Restart Shinken'
+  with_items: "{{ shinken_brokers }}"
+
+
+- name: Generate schedulers configuration files
+  become: True
+  template:
+    src: "{{ role_path }}/templates/scheduler.cfg.j2"
+    dest: "{{ shinken_paths_etc }}/schedulers/{{ item.name }}.cfg"
+    owner: "{{ shinken_user_name }}"
+    group: "{{ shinken_user_group }}"
+    mode: "{{ shinken_config_files_mode }}"
+  notify: 'Restart Shinken'
+  with_items: "{{ shinken_schedulers }}"
+
