@@ -169,3 +169,14 @@ shinken_config_contacts:
     is_admin: 1
     expert: 1
 
+# Shinken contactgroups
+shinken_config_contactgroups:
+  - contactgroup_name: 'admins'
+    alias: 'admins'
+    members:
+      - 'admin'
+  - contactgroup_name: 'users'
+    alias: 'users'
+    members:
+      - 'admin'
+
