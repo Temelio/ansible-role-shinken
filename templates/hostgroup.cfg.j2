@@ -1,0 +1,8 @@
+define hostgroup {
+    hostgroup_name   {{ item.hostgroup_name }}
+    alias               {{ item.alias }}
+{% if (item.members | count) != 0 %}
+    members             {{ item.members | join(',') }}
+{% endif %}
+}
+

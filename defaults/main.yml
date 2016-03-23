@@ -198,3 +198,9 @@ shinken_contactgroups:
     members:
       - 'admin'
 
+# Shinken hostgroups
+shinken_hostgroups:
+  - hostgroup_name: 'linux'
+    alias: 'Linux servers'
+    members: []
+
