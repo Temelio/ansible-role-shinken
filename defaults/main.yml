@@ -204,3 +204,9 @@ shinken_hostgroups:
     alias: 'Linux servers'
     members: []
 
+# Shinken servicegroups
+shinken_servicegroups:
+  - servicegroup_name: 'websites'
+    alias: 'Websites'
+    members: []
+
