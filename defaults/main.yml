@@ -159,3 +159,13 @@ shinken_schedulers:
     hard_ssl_name_check: 0
     realm: 'All'
 
+# Shinken contacts
+shinken_config_contacts:
+  - contact_name: 'admin'
+    template: 'generic-contact'
+    email: 'shinken@localhost'
+    pager: '0600000000'
+    password: 'admin'
+    is_admin: 1
+    expert: 1
+
