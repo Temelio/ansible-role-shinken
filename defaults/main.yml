@@ -124,3 +124,20 @@ shinken_main_config_statsd_port: 8125
 shinken_main_config_statsd_prefix: 'shinken'
 shinken_main_config_statsd_enabled: 0
 
+# Shinken brokers
+shinken_brokers:
+  - name: 'broker-master'
+    address: '127.0.0.1'
+    port: 7772
+    spare: 0
+    manage_arbiters: 1
+    manage_sub_realms: 1
+    timeout: 3
+    data_timeout: 120
+    max_check_attempts: 3
+    check_interval: 60
+    modules: []
+    use_ssl: 0
+    hard_ssl_name_check: 0
+    realm: 'All'
+

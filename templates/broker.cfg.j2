@@ -1,0 +1,23 @@
+# {{ ansible_managed }}
+
+define broker {
+    broker_name         {{ item.name }}
+    address             {{ item.address }}
+    port                {{ item.port }}
+    spare               {{ item.spare }}
+
+    manage_arbiters     {{ item.manage_arbiters }}
+    manage_sub_realms   {{ item.manage_sub_realms }}
+    timeout             {{ item.timeout }}
+    data_timeout        {{ item.data_timeout }}
+    max_check_attempts  {{ item.max_check_attempts }}
+    check_interval      {{ item.check_interval }}
+
+    modules             {{ item.modules | join(',') }}
+
+    use_ssl             {{ item.use_ssl }}
+    hard_ssl_name_check {{ item.hard_ssl_name_check }}
+
+    realm               {{ item.realm }}
+}
+
