@@ -9,6 +9,9 @@ shinken_pip_packages:
     state: 'present'
     version: '2.4.3'
 
+# Do manage additional settings in cluster mode
+is_monitoring_cluster: False
+
 # Used to manage module dependencies (system and pip)
 shinken_pip_additional_packages: []
 shinken_system_additional_packages: []
@@ -160,7 +163,7 @@ shinken_schedulers:
     realm: 'All'
 
 # Shinken contacts
-shinken_config_contacts:
+shinken_contacts:
   - contact_name: 'admin'
     template: 'generic-contact'
     email: 'shinken@localhost'
@@ -170,7 +173,7 @@ shinken_config_contacts:
     expert: 1
 
 # Shinken contactgroups
-shinken_config_contactgroups:
+shinken_contactgroups:
   - contactgroup_name: 'admins'
     alias: 'admins'
     members:

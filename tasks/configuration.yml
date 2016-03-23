@@ -49,7 +49,7 @@
   become: True
   template:
     src: "{{ role_path }}/templates/contact.cfg.j2"
-    dest: "{{ shinken_paths_etc }}/contacts/{{ item.name }}.cfg"
+    dest: "{{ shinken_paths_etc }}/contacts/{{ item.contact_name }}.cfg"
     owner: "{{ shinken_user_name }}"
     group: "{{ shinken_user_group }}"
     mode: "{{ shinken_config_files_mode }}"
@@ -61,9 +61,10 @@
   become: True
   template:
     src: "{{ role_path }}/templates/contactgroup.cfg.j2"
-    dest: "{{ shinken_paths_etc }}/contactgroupss/{{ item.contactgroup_name }}.cfg"
+    dest: "{{ shinken_paths_etc }}/contactgroups/{{ item.contactgroup_name }}.cfg"
     owner: "{{ shinken_user_name }}"
     group: "{{ shinken_user_group }}"
     mode: "{{ shinken_config_files_mode }}"
   notify: 'Restart Shinken'
+  with_items: "{{ shinken_contactgroups }}"
 
