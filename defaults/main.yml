@@ -141,3 +141,21 @@ shinken_brokers:
     hard_ssl_name_check: 0
     realm: 'All'
 
+# Shinken schedulers
+shinken_schedulers:
+  - name: 'scheduler-master'
+    address: '127.0.0.1'
+    port: 7768
+    spare: 0
+    weight: 1
+    timeout: 3
+    data_timeout: 120
+    max_check_attempts: 3
+    check_interval: 60
+    modules: []
+    satellitemap: []
+    skip_initial_broks: 0
+    use_ssl: 0
+    hard_ssl_name_check: 0
+    realm: 'All'
+

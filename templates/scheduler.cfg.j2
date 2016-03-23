@@ -1,0 +1,26 @@
+# {{ ansible_managed }}
+
+define scheduler {
+    scheduler_name      {{ item.name }}
+    address             {{ item.address }}
+    port                {{ item.port }}
+    spare               {{ item.spare }}
+    weight              {{ item.weight }}
+    timeout             {{ item.timeout }}
+    data_timeout        {{ item.data_timeout }}
+    max_check_attempts  {{ item.max_check_attempts }}
+    check_interval      {{ item.check_interval }}
+
+    modules             {{ item.modules | join(',') }}
+
+    skip_initial_broks  {{ item.skip_initial_broks }}
+
+{% if item.satellitemap %}
+    satellitemap        {{ item.satellitemap | join(',') }}
+{% endif %}
+
+    use_ssl             {{ item.use_ssl }}
+    hard_ssl_name_check {{ item.hard_ssl_name_check }}
+
+    realm               {{ item.realm }}
+}

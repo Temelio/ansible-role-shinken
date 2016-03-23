@@ -42,5 +42,13 @@ describe 'shinken Ansible role configuration' do
         it { should be_owned_by shinken_user  }
         it { should be_grouped_into shinken_group  }
     end
+
+    # Scheduler configuration file
+    describe file("#{shinken_path_etc}/schedulers/scheduler-master.cfg") do
+        it { should exist }
+        it { should be_file }
+        it { should be_owned_by shinken_user  }
+        it { should be_grouped_into shinken_group  }
+    end
 end
 
