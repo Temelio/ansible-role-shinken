@@ -1,0 +1,28 @@
+# {{ ansible_managed }}
+
+define reactionner {
+    reactionner_name    {{ item.name }}
+    address             {{ item.address }}
+    port                {{ item.port }}
+    spare               {{ item.spare }}
+    manage_sb_realms    {{ item.manage_sub_realms }}
+    min_workers         {{ item.min_workers }}
+    max_workers         {{ item.max_workers }}
+    polling_interval    {{ item.polling_interval }}
+    timeout             {{ item.timeout }}
+    data_timeout        {{ item.data_timeout }}
+    max_check_attempts  {{ item.max_check_attempts }}
+    check_interval      {{ item.check_interval }}
+
+    modules             {{ item.modules | join(',') }}
+
+{% if item.reactionner_tags %}
+    reactionner_tags         {{ item.reactionner_tags | join(',') }}
+{% endif %}
+
+    use_ssl             {{ item.use_ssl }}
+    hard_ssl_name_check {{ item.hard_ssl_name_check }}
+
+    realm               {{ item.realm }}
+}
+

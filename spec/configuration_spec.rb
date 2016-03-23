@@ -51,6 +51,14 @@ describe 'shinken Ansible role configuration' do
         it { should be_grouped_into shinken_group }
     end
 
+    # Reactionner configuration file
+    describe file("#{shinken_path_etc}/reactionners/reactionner-master.cfg") do
+        it { should exist }
+        it { should be_file }
+        it { should be_owned_by shinken_user }
+        it { should be_grouped_into shinken_group }
+    end
+
     # Poller configuration file
     describe file("#{shinken_path_etc}/pollers/poller-master.cfg") do
         it { should exist }
