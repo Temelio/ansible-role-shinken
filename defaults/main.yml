@@ -221,6 +221,11 @@ shinken_arbiters:
     use_ssl: 0
     hard_ssl_name_check: 0
 
+# Shinken realms
+shinken_realms:
+  - realm_name: 'All'
+    default: 1
+
 # Shinken contacts
 shinken_contacts:
   - contact_name: 'admin'

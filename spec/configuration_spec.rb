@@ -75,6 +75,14 @@ describe 'shinken Ansible role configuration' do
         it { should be_grouped_into shinken_group }
     end
 
+    # Realm configuration file
+    describe file("#{shinken_path_etc}/realms/all.cfg") do
+        it { should exist }
+        it { should be_file }
+        it { should be_owned_by shinken_user }
+        it { should be_grouped_into shinken_group }
+    end
+
     # Contact configuration file
     describe file("#{shinken_path_etc}/contacts/admin.cfg") do
         it { should exist }
