@@ -259,3 +259,43 @@ shinken_servicegroups:
     alias: 'Websites'
     members: []
 
+# Shinken timeperiods
+shinken_timeperiods:
+  - timeperiod_name: 'workhours'
+    alias: 'Normal workhours'
+    entries:
+      - period: 'monday'
+        time: '09:00-17:00'
+      - period: 'tuesday'
+        time: '09:00-17:00'
+      - period: 'wednesday'
+        time: '09:00-17:00'
+      - period: 'thursday'
+        time: '09:00-17:00'
+      - period: 'friday'
+        time: '09:00-17:00'
+      - period: 'saturday'
+        time: '09:00-17:00'
+      - period: 'sunday'
+        time: '09:00-17:00'
+  - timeperiod_name: 'always'
+    alias: '24x7'
+    entries:
+      - period: 'monday'
+        time: '00:00-24:00'
+      - period: 'tuesday'
+        time: '00:00-24:00'
+      - period: 'wednesday'
+        time: '00:00-24:00'
+      - period: 'thursday'
+        time: '00:00-24:00'
+      - period: 'friday'
+        time: '00:00-24:00'
+      - period: 'saturday'
+        time: '00:00-24:00'
+      - period: 'sunday'
+        time: '00:00-24:00'
+  - timeperiod_name: 'none'
+    alias: 'None'
+    entries: []
+

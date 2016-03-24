@@ -114,5 +114,17 @@ describe 'shinken Ansible role configuration' do
         it { should be_owned_by shinken_user }
         it { should be_grouped_into shinken_group }
     end
+
+    # Timeperiods testing
+    timeperiods_test = Array[ 'always', 'workhours', 'none' ]
+
+    timeperiods_test.each do |timeperiod|
+        describe file("#{shinken_path_etc}/timeperiods/#{timeperiod}.cfg") do
+            it { should exist }
+            it { should be_file }
+            it { should be_owned_by shinken_user }
+            it { should be_grouped_into shinken_group }
+        end
+    end
 end
 

@@ -1,0 +1,10 @@
+# {{ ansible_managed }}
+
+define timeperiod {
+    timeperiod_name     {{ item.timeperiod_name }}
+    alias               {{ item.alias }}
+{% for entry in item.entries %}
+    {{ entry.period }}  {{ entry.time }}
+{% endfor %}
+}
+
