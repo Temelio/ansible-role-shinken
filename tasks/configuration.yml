@@ -25,7 +25,7 @@
   become: True
   template:
     src: "{{ role_path }}/templates/broker.cfg.j2"
-    dest: "{{ shinken_paths_etc }}/brokers/{{ item.name }}.cfg"
+    dest: "{{ shinken_paths_etc }}/brokers/{{ item.name | lower }}.cfg"
     owner: "{{ shinken_user_name }}"
     group: "{{ shinken_user_group }}"
     mode: "{{ shinken_config_files_mode }}"
@@ -37,7 +37,7 @@
   become: True
   template:
     src: "{{ role_path }}/templates/scheduler.cfg.j2"
-    dest: "{{ shinken_paths_etc }}/schedulers/{{ item.name }}.cfg"
+    dest: "{{ shinken_paths_etc }}/schedulers/{{ item.name | lower }}.cfg"
     owner: "{{ shinken_user_name }}"
     group: "{{ shinken_user_group }}"
     mode: "{{ shinken_config_files_mode }}"
@@ -49,7 +49,7 @@
   become: True
   template:
     src: "{{ role_path }}/templates/reactionner.cfg.j2"
-    dest: "{{ shinken_paths_etc }}/reactionners/{{ item.name }}.cfg"
+    dest: "{{ shinken_paths_etc }}/reactionners/{{ item.name | lower }}.cfg"
     owner: "{{ shinken_user_name }}"
     group: "{{ shinken_user_group }}"
     mode: "{{ shinken_config_files_mode }}"
@@ -61,7 +61,7 @@
   become: True
   template:
     src: "{{ role_path }}/templates/poller.cfg.j2"
-    dest: "{{ shinken_paths_etc }}/pollers/{{ item.name }}.cfg"
+    dest: "{{ shinken_paths_etc }}/pollers/{{ item.name | lower }}.cfg"
     owner: "{{ shinken_user_name }}"
     group: "{{ shinken_user_group }}"
     mode: "{{ shinken_config_files_mode }}"
@@ -73,7 +73,7 @@
   become: True
   template:
     src: "{{ role_path }}/templates/arbiter.cfg.j2"
-    dest: "{{ shinken_paths_etc }}/arbiters/{{ item.name }}.cfg"
+    dest: "{{ shinken_paths_etc }}/arbiters/{{ item.name | lower }}.cfg"
     owner: "{{ shinken_user_name }}"
     group: "{{ shinken_user_group }}"
     mode: "{{ shinken_config_files_mode }}"
@@ -97,7 +97,7 @@
   become: True
   template:
     src: "{{ role_path }}/templates/contact.cfg.j2"
-    dest: "{{ shinken_paths_etc }}/contacts/{{ item.contact_name }}.cfg"
+    dest: "{{ shinken_paths_etc }}/contacts/{{ item.contact_name | lower }}.cfg"
     owner: "{{ shinken_user_name }}"
     group: "{{ shinken_user_group }}"
     mode: "{{ shinken_config_files_mode }}"
@@ -109,7 +109,8 @@
   become: True
   template:
     src: "{{ role_path }}/templates/contactgroup.cfg.j2"
-    dest: "{{ shinken_paths_etc }}/contactgroups/{{ item.contactgroup_name }}.cfg"
+    dest: "{{ shinken_paths_etc ~ '/contactgroups/'
+              ~ (item.contactgroup_name | lower) ~ '.cfg' }}"
     owner: "{{ shinken_user_name }}"
     group: "{{ shinken_user_group }}"
     mode: "{{ shinken_config_files_mode }}"
@@ -121,7 +122,8 @@
   become: True
   template:
     src: "{{ role_path }}/templates/hostgroup.cfg.j2"
-    dest: "{{ shinken_paths_etc }}/hostgroups/{{ item.hostgroup_name }}.cfg"
+    dest: "{{ shinken_paths_etc ~ '/hostgroups/'
+              ~ (item.hostgroup_name | lower) ~ '.cfg' }}"
     owner: "{{ shinken_user_name }}"
     group: "{{ shinken_user_group }}"
     mode: "{{ shinken_config_files_mode }}"
@@ -133,7 +135,8 @@
   become: True
   template:
     src: "{{ role_path }}/templates/servicegroup.cfg.j2"
-    dest: "{{ shinken_paths_etc }}/servicegroups/{{ item.servicegroup_name }}.cfg"
+    dest: "{{ shinken_paths_etc ~ '/servicegroups/'
+              ~ (item.servicegroup_name | lower) ~ '.cfg' }}"
     owner: "{{ shinken_user_name }}"
     group: "{{ shinken_user_group }}"
     mode: "{{ shinken_config_files_mode }}"
