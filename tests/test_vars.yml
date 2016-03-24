@@ -1,0 +1,77 @@
+---
+
+# Variables used to test role
+
+# Shinken contacts
+shinken_contacts:
+  - contact_name: 'admin'
+    template: 'generic-contact'
+    email: 'shinken@localhost'
+    pager: '0600000000'
+    password: 'admin'
+    is_admin: 1
+    expert: 1
+
+# Shinken contactgroups
+shinken_contactgroups:
+  - contactgroup_name: 'admins'
+    alias: 'admins'
+    members:
+      - 'admin'
+  - contactgroup_name: 'users'
+    alias: 'users'
+    members:
+      - 'admin'
+
+# Shinken hostgroups
+shinken_hostgroups:
+  - hostgroup_name: 'linux'
+    alias: 'Linux servers'
+    members: []
+
+# Shinken servicegroups
+shinken_servicegroups:
+  - servicegroup_name: 'websites'
+    alias: 'Websites'
+    members: []
+
+# Shinken timeperiods
+shinken_timeperiods:
+  - timeperiod_name: 'workhours'
+    alias: 'Normal workhours'
+    entries:
+      - period: 'monday'
+        time: '09:00-17:00'
+      - period: 'tuesday'
+        time: '09:00-17:00'
+      - period: 'wednesday'
+        time: '09:00-17:00'
+      - period: 'thursday'
+        time: '09:00-17:00'
+      - period: 'friday'
+        time: '09:00-17:00'
+      - period: 'saturday'
+        time: '09:00-17:00'
+      - period: 'sunday'
+        time: '09:00-17:00'
+  - timeperiod_name: 'always'
+    alias: '24x7'
+    entries:
+      - period: 'monday'
+        time: '00:00-24:00'
+      - period: 'tuesday'
+        time: '00:00-24:00'
+      - period: 'wednesday'
+        time: '00:00-24:00'
+      - period: 'thursday'
+        time: '00:00-24:00'
+      - period: 'friday'
+        time: '00:00-24:00'
+      - period: 'saturday'
+        time: '00:00-24:00'
+      - period: 'sunday'
+        time: '00:00-24:00'
+  - timeperiod_name: 'none'
+    alias: 'None'
+    entries: []
+

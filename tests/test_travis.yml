@@ -8,4 +8,6 @@
     - "Temelio/ansible-role-shinken"
   post_tasks:
     - include: ./test_common.yml
+  vars_files:
+    - "{{ role_path }}/tests/test_vars.yml"
 
