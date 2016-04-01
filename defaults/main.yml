@@ -276,4 +276,5 @@ shinken_contactgroups: []
 shinken_hostgroups: []
 shinken_servicegroups: []
 shinken_timeperiods: []
+shinken_notficationways: []
 
