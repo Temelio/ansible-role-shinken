@@ -12,6 +12,9 @@ shinken_pip_packages:
 # Do manage additional settings in cluster mode
 is_monitoring_cluster: False
 
+# Clear configuration after a new installation or upgrade
+shinken_clear_configuration_after_install: True
+
 # Used to manage module dependencies (system and pip)
 shinken_pip_additional_packages: []
 shinken_system_additional_packages: []
@@ -30,6 +33,47 @@ shinken_paths_run: '/var/run/shinken'
 shinken_paths_log: '/var/log/shinken'
 
 shinken_config_files_mode: '0600'
+
+shinken_path_configuration:
+  - "{{ shinken_paths_etc }}/arbiters"
+  - "{{ shinken_paths_etc }}/brokers"
+  - "{{ shinken_paths_etc }}/certs"
+  - "{{ shinken_paths_etc }}/commands"
+  - "{{ shinken_paths_etc }}/contactgroups"
+  - "{{ shinken_paths_etc }}/contacts"
+  - "{{ shinken_paths_etc }}/daemons"
+  - "{{ shinken_paths_etc }}/dependencies"
+  - "{{ shinken_paths_etc }}/discovery"
+  - "{{ shinken_paths_etc }}/escalations"
+  - "{{ shinken_paths_etc }}/hostgroups"
+  - "{{ shinken_paths_etc }}/hosts"
+  - "{{ shinken_paths_etc }}/modules"
+  - "{{ shinken_paths_etc }}/notificationways"
+  - "{{ shinken_paths_etc }}/packs"
+  - "{{ shinken_paths_etc }}/pollers"
+  - "{{ shinken_paths_etc }}/reactionners"
+  - "{{ shinken_paths_etc }}/realms"
+  - "{{ shinken_paths_etc }}/receivers"
+  - "{{ shinken_paths_etc }}/resouce.d"
+  - "{{ shinken_paths_etc }}/schedulers"
+  - "{{ shinken_paths_etc }}/servicegroups"
+  - "{{ shinken_paths_etc }}/services"
+  - "{{ shinken_paths_etc }}/templates"
+  - "{{ shinken_paths_etc }}/timeperiods"
+
+shinken_ressources:
+  - name: 'paths'
+    variables:
+      - name: '$USER1$'
+        value: '$NAGIOSPLUGINSDIR$'
+      - name: '$NAGIOSPLUGINSDIR$'
+        value: '/usr/lib/nagios/plugins'
+      - name: '$PLUGINSDIR$'
+        value: '/var/lib/shinken/libexec'
+  - name: 'snmp'
+    variables:
+      - name: '$SNMPCOMMUNITYREAD$'
+        value: 'public'
 
 # Daemons
 shinken_daemons:

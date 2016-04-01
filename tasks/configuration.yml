@@ -10,6 +10,28 @@
   register: 'shinken_check_initialize'
 
 
+- name: Remove default configuration
+  become: True
+  file:
+    dest: "{{ shinken_paths_etc }}"
+    state: 'absent'
+  when:
+    - "{{ shinken_clear_configuration_after_install }}"
+    - "{{ shinken_system_packages_install.changed
+          or shinken_pip_packages_install.changed }}"
+
+
+- name: Create configuration folders
+  become: True
+  file:
+    dest: "{{ item }}"
+    owner: "{{ shinken_user_name }}"
+    group: "{{ shinken_user_group }}"
+    mode: "{{ shinken_config_files_mode }}"
+  with_items: "{{ shinken_path_configuration }}"
+  notify: 'Restart Shinken'
+
+
 - name: Generate main configuration file
   become: True
   template:
