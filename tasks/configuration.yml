@@ -43,7 +43,7 @@
   notify: 'Restart Shinken'
 
 
-- name: Generate brokers configuration files
+- name: Generate brokers definition files
   become: True
   template:
     src: "{{ role_path }}/templates/broker.cfg.j2"
@@ -55,7 +55,7 @@
   with_items: "{{ shinken_brokers }}"
 
 
-- name: Generate schedulers configuration files
+- name: Generate schedulers definition files
   become: True
   template:
     src: "{{ role_path }}/templates/scheduler.cfg.j2"
@@ -67,7 +67,7 @@
   with_items: "{{ shinken_schedulers }}"
 
 
-- name: Generate reactionners configuration files
+- name: Generate reactionners definition files
   become: True
   template:
     src: "{{ role_path }}/templates/reactionner.cfg.j2"
@@ -79,7 +79,7 @@
   with_items: "{{ shinken_reactionners }}"
 
 
-- name: Generate pollers configuration files
+- name: Generate pollers definition files
   become: True
   template:
     src: "{{ role_path }}/templates/poller.cfg.j2"
@@ -91,7 +91,7 @@
   with_items: "{{ shinken_pollers }}"
 
 
-- name: Generate arbiters configuration files
+- name: Generate arbiters definition files
   become: True
   template:
     src: "{{ role_path }}/templates/arbiter.cfg.j2"
@@ -103,7 +103,7 @@
   with_items: "{{ shinken_arbiters }}"
 
 
-- name: Generate realms configuration files
+- name: Generate realms definition files
   become: True
   template:
     src: "{{ role_path }}/templates/realm.cfg.j2"
@@ -115,7 +115,7 @@
   with_items: "{{ shinken_realms }}"
 
 
-- name: Generate contacts configuration files
+- name: Generate contacts definition files
   become: True
   template:
     src: "{{ role_path }}/templates/contact.cfg.j2"
@@ -127,7 +127,7 @@
   with_items: "{{ shinken_contacts }}"
 
 
-- name: Generate contactgroups configuration files
+- name: Generate contactgroups definition files
   become: True
   template:
     src: "{{ role_path }}/templates/contactgroup.cfg.j2"
@@ -140,7 +140,7 @@
   with_items: "{{ shinken_contactgroups }}"
 
 
-- name: Generate hostgroups configuration files
+- name: Generate hostgroups definition files
   become: True
   template:
     src: "{{ role_path }}/templates/hostgroup.cfg.j2"
@@ -153,7 +153,7 @@
   with_items: "{{ shinken_hostgroups }}"
 
 
-- name: Generate servicegroups configuration files
+- name: Generate servicegroups definition files
   become: True
   template:
     src: "{{ role_path }}/templates/servicegroup.cfg.j2"
@@ -166,7 +166,7 @@
   with_items: "{{ shinken_servicegroups }}"
 
 
-- name: Generate timeperiods configuration files
+- name: Generate timeperiods definition files
   become: True
   template:
     src: "{{ role_path }}/templates/timeperiod.cfg.j2"
@@ -179,7 +179,7 @@
   with_items: "{{ shinken_timeperiods }}"
 
 
-- name: Generate notificationways configuration files
+- name: Generate notificationways definition files
   become: True
   template:
     src: "{{ role_path }}/templates/notificationway.cfg.j2"
@@ -192,7 +192,7 @@
   with_items: "{{ shinken_notificationways }}"
 
 
-- name: Generate commands configuration files
+- name: Generate commands definition files
   become: True
   template:
     src: "{{ role_path }}/templates/command.cfg.j2"
