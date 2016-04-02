@@ -1,0 +1,9 @@
+{% if item.register is defined %}
+    {{ "%-30s %s" | format('register', item.register) }}
+{% endif %}
+{% if item.name is defined  %}
+    {{ "%-30s %s" | format('name', item.name) }}
+{% endif %}
+{% if item.templates is defined %}
+    {{ "%-30s %s" | format('use', (item.templates | join(','))) }}
+{% endif %}

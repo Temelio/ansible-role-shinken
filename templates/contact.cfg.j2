@@ -1,10 +1,54 @@
 define contact {
-    use             {{ item.template }}
-    contact_name    {{ item.contact_name }}
-    email           {{ item.email }}
-    pager           {{ item.pager }}
-    password        {{ item.password }}
-    is_admin        {{ item.is_admin }}
-    expert          {{ item.expert }}
+{% include('./section_templating.j2') %}
+{% if item.contact_name is defined %}
+    {{ "%-30s %s" | format('contact_name', item.contact_name) }}
+{% endif %}
+{% if item.alias is defined %}
+    {{ "%-30s %s" | format('alias', item.alias) }}
+{% endif %}
+{% if (item.contactgroups is defined) and item.contactgroups %}
+    {{ "%-30s %s" | format('contactgroups',
+                           (item.contactgroups | join(','))) }}
+{% endif %}
+{% if (item.notificationways is defined) and item.notificationways %}
+    {{ "%-30s %s" | format('notificationways',
+                           (item.notificationways | join(','))) }}
+{% endif %}
+{% if item.email is defined %}
+    {{ "%-30s %s" | format('email', item.email) }}
+{% endif %}
+{% if item.pager is defined %}
+    {{ "%-30s %s" | format('pager', item.pager) }}
+{% endif %}
+{% if item.addresses is defined %}
+{% for address in item.addresses %}
+    {{ "%-30s %s" | format(('address' ~ loop.index), address) }}
+{% endfor %}
+{% endif %}
+{% if item.can_submit_commands is defined %}
+    {{ "%-30s %s" | format('can_submit_commands', item.can_submit_commands) }}
+{% endif %}
+{% if item.is_admin is defined %}
+    {{ "%-30s %s" | format('is_admin', item.is_admin) }}
+{% endif %}
+{% if min_business_impact is defined %}
+    {{ "%-30s %s" | format('min_business_impact', item.min_business_impact) }}
+{% endif %}
+{% if item.host_notifications_enabled is defined %}
+    {{ "%-30s %s" | format('host_notifications_enabled',
+                           item.host_notifications_enabled) }}
+{% endif %}
+{% if item.service_notifications_enabled is defined %}
+    {{ "%-30s %s" | format('service_notifications_enabled',
+                           item.service_notifications_enabled) }}
+{% endif %}
+{% if item.retain_status_information is defined %}
+    {{ "%-30s %s" | format('retain_status_information',
+                           item.retain_status_information) }}
+{% endif %}
+{% if item.retain_nonstatus_information is defined %}
+    {{ "%-30s %s" | format('retain_nonstatus_information',
+                           item.retain_nonstatus_information) }}
+{% endif %}
+{% include('./section_additional_settings.j2') %}
 }
-
