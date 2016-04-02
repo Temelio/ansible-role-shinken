@@ -11,5 +11,5 @@
   vars:
     role_name: "{{ lookup('env','ANSIBLE_ROLE_NAME') }}"
   vars_files:
-    - "{{ role_path }}/tests/test_vars.yml"
+    - "./test_vars.yml"
 
