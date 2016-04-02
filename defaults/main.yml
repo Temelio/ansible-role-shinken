@@ -237,7 +237,7 @@ shinken_brokers:
 
 # Shinken schedulers
 shinken_schedulers:
-  - name: 'scheduler-master'
+  - scheduler_name: 'scheduler-master'
     address: '127.0.0.1'
     port: 7768
     spare: 0
