@@ -54,7 +54,7 @@ shinken_path_configuration:
   - "{{ shinken_paths_etc }}/reactionners"
   - "{{ shinken_paths_etc }}/realms"
   - "{{ shinken_paths_etc }}/receivers"
-  - "{{ shinken_paths_etc }}/resouce.d"
+  - "{{ shinken_paths_etc }}/resource.d"
   - "{{ shinken_paths_etc }}/schedulers"
   - "{{ shinken_paths_etc }}/servicegroups"
   - "{{ shinken_paths_etc }}/services"
