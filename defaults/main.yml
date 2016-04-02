@@ -255,7 +255,7 @@ shinken_schedulers:
 
 # Shinken reactionners
 shinken_reactionners:
-  - name: 'reactionner-master'
+  - reactionner_name: 'reactionner-master'
     address: '127.0.0.1'
     port: 7769
     spare: 0

@@ -89,7 +89,8 @@
   become: True
   template:
     src: "{{ role_path }}/templates/reactionner.cfg.j2"
-    dest: "{{ shinken_paths_etc }}/reactionners/{{ item.name | lower }}.cfg"
+    dest: "{{ shinken_paths_etc }}/reactionners/{{ item.reactionner_name
+              | lower }}.cfg"
     owner: "{{ shinken_user_name }}"
     group: "{{ shinken_user_group }}"
     mode: "{{ shinken_config_files_mode }}"
