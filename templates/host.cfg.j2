@@ -1,0 +1,22 @@
+define host {
+{% for key, value in (item | dictsort) %}
+{% if ((value is string) and (value != '')) or (value is number) %}
+    {{ "%-40s %s" | format(key, value) }}
+{% elif (value is sequence) and value %}
+{% if key == 'service_overrides' %}
+{% for override in value %}
+    {{ "%-40s %s,%s %s" | format(key,
+                                 override.service,
+                                 override.key,
+                                 override.value) }}
+{% endfor %}
+{% elif key == 'service_excludes' %}
+{% for exclude in value %}
+    {{ "%-40s %s" | format(key, exclude) }}
+{% endfor %}
+{% else %}
+    {{ "%-40s %s" | format(key, (value | join(','))) }}
+{% endif %}
+{% endif %}
+{% endfor %}
+}

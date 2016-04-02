@@ -6,7 +6,8 @@
 shinken_contacts:
   - contact_name: 'contact_full'
     alias: 'Contact with full settings'
-    contactgroups: []
+    contactgroups:
+      - 'contactgroup_full'
     host_notifications_enabled: 1
     service_notifications_enabled: 1
     notificationways:
@@ -126,7 +127,46 @@ shinken_commands:
   - command_name: 'command_minimal'
     command_line: 'command_minimal_line'
 
+shinken_services:
+  - host_name: 'host_overrides'
+    service_description: 'service_overrides_1'
+    retry_interval: 3
+    check_command: 'command_full'
+    check_interval: 2
+  - host_name: 'host_overrides'
+    service_description: 'service_overrides_2'
+    retry_interval: 3
+    check_command: 'command_full'
+    check_interval: 2
+  - host_name: 'host_excludes'
+    service_description: 'service_excludes_1'
+    retry_interval: 3
+    check_command: 'command_full'
+    check_interval: 2
+  - host_name: 'host_excludes'
+    service_description: 'service_excludes_2'
+    retry_interval: 3
+    check_command: 'command_full'
+    check_interval: 2
+
 shinken_hosts:
-  - host_name: 'localhost'
+  - host_name: 'host_overrides'
     address: '127.0.0.1'
+    contact_groups:
+      - 'contactgroup_full'
     max_check_attempts: 3
+    service_overrides:
+      - service: 'service_overrides_1'
+        key: 'check_interval'
+        value: 0
+      - service: 'service_overrides_2'
+        key: 'retry_interval'
+        value: 10
+  - host_name: 'host_excludes'
+    address: '127.0.0.1'
+    contact_groups:
+      - 'contactgroup_full'
+    max_check_attempts: 3
+    service_excludes:
+      - 'service_exclude_1'
+      - 'service_exclude_2'

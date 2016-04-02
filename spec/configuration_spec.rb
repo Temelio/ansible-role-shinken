@@ -75,6 +75,46 @@ describe 'shinken Ansible role configuration' do
         it { should be_grouped_into shinken_group }
     end
 
+    # Host configuration files
+    describe file("#{shinken_path_etc}/hosts/host_excludes.cfg") do
+        it { should exist }
+        it { should be_file }
+        it { should be_owned_by shinken_user }
+        it { should be_grouped_into shinken_group }
+    end
+    describe file("#{shinken_path_etc}/hosts/host_overrides.cfg") do
+        it { should exist }
+        it { should be_file }
+        it { should be_owned_by shinken_user }
+        it { should be_grouped_into shinken_group }
+    end
+
+    # Service configuration files
+    describe file("#{shinken_path_etc}/services/host_excludes__service_excludes_1.cfg") do
+        it { should exist }
+        it { should be_file }
+        it { should be_owned_by shinken_user }
+        it { should be_grouped_into shinken_group }
+    end
+    describe file("#{shinken_path_etc}/services/host_excludes__service_excludes_2.cfg") do
+        it { should exist }
+        it { should be_file }
+        it { should be_owned_by shinken_user }
+        it { should be_grouped_into shinken_group }
+    end
+    describe file("#{shinken_path_etc}/services/host_overrides__service_overrides_1.cfg") do
+        it { should exist }
+        it { should be_file }
+        it { should be_owned_by shinken_user }
+        it { should be_grouped_into shinken_group }
+    end
+    describe file("#{shinken_path_etc}/services/host_overrides__service_overrides_2.cfg") do
+        it { should exist }
+        it { should be_file }
+        it { should be_owned_by shinken_user }
+        it { should be_grouped_into shinken_group }
+    end
+
     # Realm configuration file
     describe file("#{shinken_path_etc}/realms/all.cfg") do
         it { should exist }

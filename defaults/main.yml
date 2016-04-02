@@ -325,4 +325,6 @@ shinken_servicegroups: []
 shinken_timeperiods: []
 shinken_notficationways: []
 shinken_commands: []
+shinken_hosts: []
+shinken_services: []
 
