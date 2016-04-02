@@ -276,7 +276,7 @@ shinken_reactionners:
 
 # Shinken pollers
 shinken_pollers:
-  - name: 'poller-master'
+  - poller_name: 'poller-master'
     address: '127.0.0.1'
     port: 7771
     spare: 0

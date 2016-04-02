@@ -1,31 +1,6 @@
 # {{ ansible_managed }}
 
 define poller {
-    poller_name         {{ item.name }}
-    address             {{ item.address }}
-    port                {{ item.port }}
-    spare               {{ item.spare }}
-    manage_sb_realms    {{ item.manage_sub_realms }}
-    min_workers         {{ item.min_workers }}
-    max_workers         {{ item.max_workers }}
-    processes_by_worker {{ item.processes_by_worker }}
-    polling_interval    {{ item.polling_interval }}
-    timeout             {{ item.timeout }}
-    data_timeout        {{ item.data_timeout }}
-    max_check_attempts  {{ item.max_check_attempts }}
-    check_interval      {{ item.check_interval }}
-
-    modules             {{ item.modules | join(',') }}
-
-    passive             {{ item.passive }}
-
-{% if item.poller_tags %}
-    poller_tags         {{ item.poller_tags | join(',') }}
-{% endif %}
-
-    use_ssl             {{ item.use_ssl }}
-    hard_ssl_name_check {{ item.hard_ssl_name_check }}
-
-    realm               {{ item.realm }}
+{% include('./section_common.j2') %}
 }
 
