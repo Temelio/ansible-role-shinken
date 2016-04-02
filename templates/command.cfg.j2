@@ -1,10 +1,5 @@
 # {{ ansible_managed }}
 
 define command {
-    command_name    {{ item.command_name }}
-    command_line    {{ item.command_line }}
-{% if item.poller_tag is defined %}
-    poller_tag      {{ item.poller_tag }}
-{% endif %}
+{% include('./section_common.j2') %}
 }
-
