@@ -27,7 +27,7 @@
     dest: "{{ item }}"
     owner: "{{ shinken_user_name }}"
     group: "{{ shinken_user_group }}"
-    mode: "{{ shinken_config_files_mode }}"
+    mode: "{{ shinken_config_folders_mode }}"
     state: 'directory'
   with_items: "{{ shinken_path_configuration }}"
   notify: 'Restart Shinken'
