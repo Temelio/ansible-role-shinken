@@ -124,7 +124,13 @@ describe 'shinken Ansible role configuration' do
     end
 
     # Contact configuration file
-    describe file("#{shinken_path_etc}/contacts/admin.cfg") do
+    describe file("#{shinken_path_etc}/contacts/contact_full.cfg") do
+        it { should exist }
+        it { should be_file }
+        it { should be_owned_by shinken_user }
+        it { should be_grouped_into shinken_group }
+    end
+    describe file("#{shinken_path_etc}/contacts/contact_minimal.cfg") do
         it { should exist }
         it { should be_file }
         it { should be_owned_by shinken_user }
@@ -132,7 +138,13 @@ describe 'shinken Ansible role configuration' do
     end
 
     # Contactgroup configuration file
-    describe file("#{shinken_path_etc}/contactgroups/admins.cfg") do
+    describe file("#{shinken_path_etc}/contactgroups/contactgroup_full.cfg") do
+        it { should exist }
+        it { should be_file }
+        it { should be_owned_by shinken_user }
+        it { should be_grouped_into shinken_group }
+    end
+    describe file("#{shinken_path_etc}/contactgroups/contactgroup_minimal.cfg") do
         it { should exist }
         it { should be_file }
         it { should be_owned_by shinken_user }
@@ -140,7 +152,13 @@ describe 'shinken Ansible role configuration' do
     end
 
     # Hostgroup configuration file
-    describe file("#{shinken_path_etc}/hostgroups/linux.cfg") do
+    describe file("#{shinken_path_etc}/hostgroups/hostgroup_full.cfg") do
+        it { should exist }
+        it { should be_file }
+        it { should be_owned_by shinken_user }
+        it { should be_grouped_into shinken_group }
+    end
+    describe file("#{shinken_path_etc}/hostgroups/hostgroup_minimal.cfg") do
         it { should exist }
         it { should be_file }
         it { should be_owned_by shinken_user }
@@ -148,7 +166,13 @@ describe 'shinken Ansible role configuration' do
     end
 
     # Servicegroup configuration file
-    describe file("#{shinken_path_etc}/servicegroups/websites.cfg") do
+    describe file("#{shinken_path_etc}/servicegroups/servicegroup_full.cfg") do
+        it { should exist }
+        it { should be_file }
+        it { should be_owned_by shinken_user }
+        it { should be_grouped_into shinken_group }
+    end
+    describe file("#{shinken_path_etc}/servicegroups/servicegroup_minimal.cfg") do
         it { should exist }
         it { should be_file }
         it { should be_owned_by shinken_user }
@@ -156,15 +180,17 @@ describe 'shinken Ansible role configuration' do
     end
 
     # Timeperiods testing
-    timeperiods_test = Array[ 'always', 'workhours', 'none' ]
-
-    timeperiods_test.each do |timeperiod|
-        describe file("#{shinken_path_etc}/timeperiods/#{timeperiod}.cfg") do
-            it { should exist }
-            it { should be_file }
-            it { should be_owned_by shinken_user }
-            it { should be_grouped_into shinken_group }
-        end
+    describe file("#{shinken_path_etc}/timeperiods/timeperiod_full.cfg") do
+        it { should exist }
+        it { should be_file }
+        it { should be_owned_by shinken_user }
+        it { should be_grouped_into shinken_group }
+    end
+    describe file("#{shinken_path_etc}/timeperiods/timeperiod_minimal.cfg") do
+        it { should exist }
+        it { should be_file }
+        it { should be_owned_by shinken_user }
+        it { should be_grouped_into shinken_group }
     end
 end
 
