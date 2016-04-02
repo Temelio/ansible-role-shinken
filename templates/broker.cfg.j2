@@ -1,44 +1,5 @@
 # {{ ansible_managed }}
 
 define broker {
-    {{ "%-30s %s" | format('broker_name', item.name) }}
-{% if item.address is defined %}
-    {{ "%-30s %s" | format('address', item.address) }}
-{% endif %}
-{% if item.port is defined %}
-    {{ "%-30s %s" | format('port', item.port) }}
-{% endif %}
-{% if item.spare is defined %}
-    {{ "%-30s %s" | format('spare', item.spare) }}
-{% endif %}
-{% if item.manage_arbiters is defined %}
-    {{ "%-30s %s" | format('manage_arbiters', item.manage_arbiters) }}
-{% endif %}
-{% if item.manage_sub_realms is defined %}
-    {{ "%-30s %s" | format('manage_sub_realms', item.manage_sub_realms) }}
-{% endif %}
-{% if item.timeout is defined %}
-    {{ "%-30s %s" | format('timeout', item.timeout) }}
-{% endif %}
-{% if item.data_timeout is defined %}
-    {{ "%-30s %s" | format('data_timeout', item.data_timeout) }}
-{% endif %}
-{% if item.max_check_attempts is defined %}
-    {{ "%-30s %s" | format('max_check_attempts', item.max_check_attempts) }}
-{% endif %}
-{% if item.check_interval is defined %}
-    {{ "%-30s %s" | format('check_interval', item.check_interval) }}
-{% endif %}
-{% if (item.modules is defined) and item.modules %}
-    {{ "%-30s %s" | format('modules', (item.modules | join(','))) }}
-{% endif %}
-{% if item.use_ssl is defined %}
-    {{ "%-30s %s" | format('use_ssl', item.use_ssl) }}
-{% endif %}
-{% if item.hard_ssl_name_check is defined %}
-    {{ "%-30s %s" | format('hard_ssl_name_check', item.hard_ssl_name_check) }}
-{% endif %}
-{% if item.realm is defined %}
-    {{ "%-30s %s" | format('realm', item.realm) }}
-{% endif %}
+{% include('./section_common.j2') %}
 }

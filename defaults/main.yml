@@ -220,7 +220,7 @@ shinken_main_config_statsd_enabled: 0
 
 # Shinken brokers
 shinken_brokers:
-  - name: 'broker-master'
+  - broker_name: 'broker-master'
     address: '127.0.0.1'
     port: 7772
     spare: 0
