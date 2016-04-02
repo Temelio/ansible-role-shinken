@@ -186,7 +186,7 @@ shinken_main_config_timeout_exit_status: 2
 shinken_main_config_flap_history: 20
 shinken_main_config_max_plugins_output_length: 65536
 shinken_main_config_enable_problem_impacts_states_change: 1
-shinken_main_config_disable_old_nagios_parameters_whining: 0
+shinken_main_config_disable_old_nagios_parameters_whining: 1
 shinken_main_config_use_timezone: ''
 shinken_main_config_enable_environment_macros: 0
 shinken_main_config_log_initial_states: 0

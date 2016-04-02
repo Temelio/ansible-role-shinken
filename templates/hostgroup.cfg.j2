@@ -1,8 +1,29 @@
 define hostgroup {
-    hostgroup_name   {{ item.hostgroup_name }}
+{% if item.register is defined %}
+    use             {{ item.register }}
+{% endif %}
+{% if item.name is defined  %}
+    name            {{ item.name }}
+{% endif %}
+{% if item.template is defined %}
+    use             {{ item.template }}
+{% endif %}
+    hostgroup_name      {{ item.hostgroup_name }}
     alias               {{ item.alias }}
-{% if (item.members | count) != 0 %}
+{% if item.members is defined %}
     members             {{ item.members | join(',') }}
+{% endif %}
+{% if item.hostgroup_members is defined %}
+    hostgroup_members   {{ item.hostgroup_members | join(',') }}
+{% endif %}
+{% if item.notes is defined %}
+    notes               {{ item.notes }}
+{% endif %}
+{% if item.notes_url is defined %}
+    notes_url           {{ item.notes_url }}
+{% endif %}
+{% if item.action_url is defined %}
+    action_url          {{ item.action_url }}
 {% endif %}
 }
 

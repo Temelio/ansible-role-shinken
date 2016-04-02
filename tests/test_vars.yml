@@ -4,40 +4,70 @@
 
 # Shinken contacts
 shinken_contacts:
-  - contact_name: 'admin'
-    template: 'generic-contact'
+  - contact_name: 'contact_full'
+    alias: 'Contact with full settings'
+    contactgroups: []
+    host_notifications_enabled: 1
+    service_notifications_enabled: 1
+    notificationways:
+      - 'notificationway_full'
     email: 'shinken@localhost'
     pager: '0600000000'
-    password: 'admin'
+    addresses:
+      - 'shinken1@localhost'
+      - 'shinken2@localhost'
+    can_submit_commands: 1
     is_admin: 1
-    expert: 1
+    retain_status_information: 1
+    retain_nonstatus_information: 1
+    min_business_impact: 1
+    additional_settings:
+      password: 'admin'
+      expert: 1
+      foobar:
+        - 'foo'
+        - 'bar'
+  - contact_name: 'contact_minimal'
 
 # Shinken contactgroups
 shinken_contactgroups:
-  - contactgroup_name: 'admins'
-    alias: 'admins'
+  - contactgroup_name: 'contactgroup_full'
+    alias: 'Full contactgroup definition'
     members:
-      - 'admin'
-  - contactgroup_name: 'users'
-    alias: 'users'
-    members:
-      - 'admin'
+      - 'contact_full'
+    contactgroup_members:
+      - 'contactgroup_minimal'
+  - contactgroup_name: 'contactgroup_minimal'
+    alias: 'Minimal contactgroup definition'
 
 # Shinken hostgroups
 shinken_hostgroups:
-  - hostgroup_name: 'linux'
-    alias: 'Linux servers'
+  - hostgroup_name: 'hostgroup_full'
+    alias: 'Hostgroup full'
+    members: []
+    hostgroup_members: []
+    note: 'foo_note'
+    notes_url: 'foo_note_url'
+    action_url: 'foo_action_url'
+  - hostgroup_name: 'hostgroup_minimal'
+    alias: 'Minimal hostgroup'
     members: []
 
 # Shinken servicegroups
 shinken_servicegroups:
-  - servicegroup_name: 'websites'
-    alias: 'Websites'
+  - servicegroup_name: 'servicegroup_full'
+    alias: 'Full servicegroup definition'
     members: []
+    servicegroup_members: []
+    notes: ''
+    notes_url: ''
+    action_url: ''
+  - servicegroup_name: 'servicegroup_minimal'
+    alias: 'Minimal servicegroup definition'
 
 # Shinken timeperiods
 shinken_timeperiods:
-  - timeperiod_name: 'workhours'
+  - timeperiod_name: 'timeperiod_full'
     alias: 'Normal workhours'
     entries:
       - period: 'monday'
@@ -54,24 +84,49 @@ shinken_timeperiods:
         time: '09:00-17:00'
       - period: 'sunday'
         time: '09:00-17:00'
-  - timeperiod_name: 'always'
-    alias: '24x7'
-    entries:
-      - period: 'monday'
-        time: '00:00-24:00'
-      - period: 'tuesday'
-        time: '00:00-24:00'
-      - period: 'wednesday'
-        time: '00:00-24:00'
-      - period: 'thursday'
-        time: '00:00-24:00'
-      - period: 'friday'
-        time: '00:00-24:00'
-      - period: 'saturday'
-        time: '00:00-24:00'
-      - period: 'sunday'
-        time: '00:00-24:00'
-  - timeperiod_name: 'none'
+    exclude:
+      - 'timeperiod_minimal'
+  - timeperiod_name: 'timeperiod_minimal'
     alias: 'None'
     entries: []
 
+shinken_realms:
+  - realm_name: 'All'
+    realm_members: []
+    default: 1
+  - realm_name: 'foo'
+    realm_members: []
+    default: 0
+
+shinken_notificationways:
+  - notificationway_name: 'notificationway_full'
+    host_notification_period: 'timeperiod_full'
+    service_notification_period: 'timeperiod_minimal'
+    host_notification_options: [ 'd', 'c' ]
+    service_notification_options: [ 'u', 'w', 'c' ]
+    host_notification_commands:
+      - 'command_full'
+    service_notification_commands:
+      - 'command_full'
+    min_business_impact: 1
+  - notificationway_name: 'notificationway_minimal'
+    host_notification_period: 'timeperiod_full'
+    service_notification_period: 'timeperiod_minimal'
+    host_notification_options: [ 'd', 'c' ]
+    service_notification_options: [ 'u', 'w', 'c' ]
+    host_notification_commands:
+      - 'command_full'
+    service_notification_commands:
+      - 'command_full'
+
+shinken_commands:
+  - command_name: 'command_full'
+    command_line: 'command_full_line'
+    poller_tag: 'tag_foo'
+  - command_name: 'command_minimal'
+    command_line: 'command_minimal_line'
+
+shinken_hosts:
+  - host_name: 'localhost'
+    address: '127.0.0.1'
+    max_check_attempts: 3

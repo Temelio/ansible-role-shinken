@@ -4,10 +4,10 @@ define notificationway {
     notificationway_name            {{ item.notificationway_name }}
     host_notification_period        {{ item.host_notification_period }}
     service_notification_period     {{ item.service_notification_period }}
-    host_notification_options       {{ item.host_notification_options | join(', ') }}
+    host_notification_options       {{ item.host_notification_options | join(',') }}
     service_notification_options    {{ item.service_notification_options | join(',') }}
-    host_notification_commands      {{ item.host_notification_commands }}
-    service_notification_commands   {{ item.service_notification_commands }}
+    host_notification_commands      {{ item.host_notification_commands | join(',') }}
+    service_notification_commands   {{ item.service_notification_commands | join(',') }}
 {% if item.min_business_impact is defined %}
     min_business_impact             {{ item.min_business_impact }}
 {% endif %}

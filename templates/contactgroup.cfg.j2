@@ -1,8 +1,11 @@
 define contactgroup {
-    contactgroup_name   {{ item.contactgroup_name }}
-    alias               {{ item.alias }}
-{% if (item.members | count) != 0 %}
-    members             {{ item.members | join(',') }}
+    contactgroup_name       {{ item.contactgroup_name }}
+    alias                   {{ item.alias }}
+{% if item.members is defined %}
+    members                 {{ item.members | join(',') }}
+{% endif %}
+{% if item.contactgroup_members is defined %}
+    contactgroup_members    {{ item.contactgroup_members | join(',') }}
 {% endif %}
 }
 

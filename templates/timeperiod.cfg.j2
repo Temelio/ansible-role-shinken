@@ -6,5 +6,8 @@ define timeperiod {
 {% for entry in item.entries %}
     {{ entry.period }}  {{ entry.time }}
 {% endfor %}
+{% if item.exclude is defined %}
+    exclude             {{ item.exclude | join(', ') }}
+{% endif %}
 }
 
