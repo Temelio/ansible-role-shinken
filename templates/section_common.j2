@@ -1,0 +1,8 @@
+{# {% for key, value in (item | dictsort).iteritems() %} #}
+{% for key, value in (item | dictsort) %}
+{% if ((value is string) and (value != '')) or (value is number) %}
+    {{ "%-40s %s" | format(key, value) }}
+{% elif (value is sequence) and value %}
+    {{ "%-40s %s" | format(key, (value | join(','))) }}
+{% endif %}
+{% endfor %}

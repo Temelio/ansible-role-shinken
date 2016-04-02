@@ -1,44 +1,5 @@
 # {{ ansible_managed }}
 
 define arbiter {
-    {{ "%-30s %s" | format('arbiter_name', item.name) }}
-{% if item.host_name is defined %}
-    {{ "%-30s %s" | format('host_name', item.host_name) }}
-{% endif %}
-{% if item.address is defined %}
-    {{ "%-30s %s" | format('address', item.address) }}
-{% endif %}
-{% if item.port is defined %}
-    {{ "%-30s %s" | format('port', item.port) }}
-{% endif %}
-{% if item.spare is defined %}
-    {{ "%-30s %s" | format('spare', item.spare) }}
-{% endif %}
-{% if (item.modules is defined) and item.modules %}
-    {{ "%-30s %s" | format('modules', (item.modules | join(','))) }}
-{% endif %}
-{% if item.use_ssl is defined %}
-    {{ "%-30s %s" | format('use_ssl', item.use_ssl) }}
-{% endif %}
-{% if item.hard_ssl_name_check is defined %}
-    {{ "%-30s %s" | format('hard_ssl_name_check', item.hard_ssl_name_check) }}
-{% endif %}
-{% if is_monitoring_cluster == True %}
-{% if item.timeout is defined %}
-    {{ "%-30s %s" | format('timeout', item.timeout) }}
-{% endif %}
-{% if item.data_timeout is defined %}
-    {{ "%-30s %s" | format('data_timeout', item.data_timeout) }}
-{% endif %}
-{% if item.max_check_attempts is defined %}
-    {{ "%-30s %s" | format('max_check_attempts', item.max_check_attempts) }}
-{% endif %}
-{% if item.check_interval is defined %}
-    {{ "%-30s %s" | format('check_interval', item.check_interval) }}
-{% endif %}
-{% endif %}
-{% if item.accept_passive_unknown_check_results is defined %}
-    {{ "%-40s %s" | format('accept_passive_unknown_check_results',
-                           item.accept_passive_unknown_check_results) }}
-{% endif %}
+{% include('./section_common.j2') %}
 }
