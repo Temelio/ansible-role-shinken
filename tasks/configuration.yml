@@ -43,6 +43,23 @@
   notify: 'Restart Shinken'
 
 
+- name: Generate daemons configuration files
+  become: True
+  template:
+    src: "{{ role_path }}/templates/daemon.ini.j2"
+    dest: "{{ shinken_paths_etc }}/daemons/{{ (item.pidfile | basename | splitext)[0] }}.ini"
+    owner: "{{ shinken_user_name }}"
+    group: "{{ shinken_user_group }}"
+    mode: "{{ shinken_config_files_mode }}"
+  notify: 'Restart Shinken'
+  with_items:
+    - "{{ shinken_daemon_defaults | combine(shinken_brokerd) }}"
+    - "{{ shinken_daemon_defaults | combine(shinken_pollerd) }}"
+    - "{{ shinken_daemon_defaults | combine(shinken_reactionnerd) }}"
+    - "{{ shinken_daemon_defaults | combine(shinken_receiverd) }}"
+    - "{{ shinken_daemon_defaults | combine(shinken_schedulerd) }}"
+
+
 - name: Generate brokers definition files
   become: True
   template:

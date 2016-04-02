@@ -102,6 +102,52 @@ shinken_daemons:
     enabled: True
     started: True
 
+shinken_daemon_defaults:
+  workdir: "{{ shinken_paths_run }}"
+  logdir: "{{ shinken_paths_log }}"
+  user: "{{ shinken_user_name }}"
+  group: "{{ shinken_user_group }}"
+  host: '0.0.0.0'
+  idontcareaboutsecurity: 0
+  daemon_enabled: 1
+  use_local_log: 1
+  log_level: 'WARNING'
+  max_queue_size: 100000
+  modules_dir: "{{ shinken_user_home }}/modules"
+  ssl:
+    use_ssl: 0
+    ca_cert: "/etc/shinken/certs/ca.pem"
+    server_cert: "/etc/shinken/certs/server.cert"
+    server_key: "/etc/shinken/certs/server.key"
+    hard_ssl_name_check: 0
+    http_backend: 'auto'
+    daemon_thread_pool_size: 16
+
+shinken_brokerd:
+  pidfile: "{{ shinken_paths_run }}/brokerd.pid"
+  port: 7772
+  local_log: "{{ shinken_paths_log }}/brokerd.log"
+
+shinken_pollerd:
+  pidfile: "{{ shinken_paths_run }}/pollerd.pid"
+  port: 7771
+  local_log: "{{ shinken_paths_log }}/pollerd.log"
+
+shinken_reactionnerd:
+  pidfile: "{{ shinken_paths_run }}/reactionnerd.pid"
+  port: 7769
+  local_log: "{{ shinken_paths_log }}/reactionnerd.log"
+
+shinken_receiverd:
+  pidfile: "{{ shinken_paths_run }}/receiverd.pid"
+  port: 7773
+  local_log: "{{ shinken_paths_log }}/receiverd.log"
+
+shinken_schedulerd:
+  pidfile: "{{ shinken_paths_run }}/schedulerd.pid"
+  port: 7768
+  local_log: "{{ shinken_paths_log }}/brokerd.log"
+
 # Modules
 shinken_modules: []
 
