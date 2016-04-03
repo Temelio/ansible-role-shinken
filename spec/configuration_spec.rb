@@ -314,5 +314,13 @@ describe 'shinken Ansible role configuration' do
         it { should be_owned_by shinken_user }
         it { should be_grouped_into shinken_group }
     end
+
+    # Package installation testing
+    describe file("#{shinken_path_etc}/packs/linux-ssh/commands.cfg") do
+        it { should exist }
+        it { should be_file }
+        it { should be_owned_by shinken_user }
+        it { should be_grouped_into shinken_group }
+    end
 end
 

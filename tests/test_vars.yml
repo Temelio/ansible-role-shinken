@@ -259,3 +259,10 @@ shinken_modules:
       color_critical: 'red'
       color_min: 'black'
       color_max: 'blue'
+
+shinken_packs:
+  - name: 'pack-linux-ssh'
+    method: 'custom_git'
+    install:
+      repo: 'https://github.com/Temelio/pack-linux-ssh.git'
+      version: 'waiting_pr'

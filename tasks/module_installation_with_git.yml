@@ -1,0 +1,23 @@
+---
+
+# Custom module or pack installation using git
+
+- name: Clone module or pack repository
+  become: True
+  become_user: "{{ shinken_user_name }}"
+  git:
+    repo: "{{ item.install.repo }}"
+    dest: "{{ item.install.dest | default('/tmp') }}/{{ item.name }}"
+    version: "{{ item.install.version | default('HEAD') }}"
+
+
+- name: Install module or pack
+  become: True
+  shell: "su - {{ shinken_user_name }} -c 'shinken install --local {{ item.install.dest | default('/tmp') }}/{{ item.name }}'"
+
+
+- name: Remove clone
+  become: True
+  file:
+    dest: "{{ item.install.dest | default('/tmp') }}/{{ item.name }}"
+    state: 'absent'
