@@ -252,6 +252,22 @@ shinken_schedulers:
     hard_ssl_name_check: 0
     realm: 'All'
 
+# Shinken receivers
+shinken_receivers:
+  - receiver_name: 'receiver-master'
+    address: '127.0.0.1'
+    port: 7773
+    spare: 0
+    timeout: 3
+    data_timeout: 120
+    max_check_attempts: 3
+    check_interval: 60
+    modules: []
+    use_ssl: 0
+    hard_ssl_name_check: 0
+    realm: 'All'
+    direct_routing: 0
+
 # Shinken reactionners
 shinken_reactionners:
   - reactionner_name: 'reactionner-master'
