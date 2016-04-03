@@ -10,15 +10,34 @@
   register: 'shinken_check_initialize'
 
 
-- name: Remove default configuration
+- name: Find all configuration files exclude pack files
   become: True
-  file:
-    dest: "{{ shinken_paths_etc }}"
-    state: 'absent'
+  command: >
+    find "{{ shinken_paths_etc }}"
+    -not -path "{{ shinken_paths_etc }}"
+    -not -path "{{ shinken_paths_etc }}/pack*"
+  register: shinken_files_to_remove
+  changed_when: False
   when:
     - "{{ shinken_clear_configuration_after_install }}"
     - "{{ shinken_system_packages_install.changed
-          or shinken_pip_packages_install.changed }}"
+          or shinken_pip_packages_install.changed
+          or shinken_modules_install_shinken_io.changed
+          or shinken_modules_install_custom.changed }}"
+
+
+- name: Remove default configuration
+  become: True
+  file:
+    dest: "{{ item }}"
+    state: 'absent'
+  with_items: "{{ shinken_files_to_remove.stdout_lines }}"
+  when:
+    - "{{ shinken_clear_configuration_after_install }}"
+    - "{{ shinken_system_packages_install.changed
+          or shinken_pip_packages_install.changed
+          or shinken_modules_install_shinken_io.changed
+          or shinken_modules_install_custom.changed }}"
 
 
 - name: Create configuration folders
