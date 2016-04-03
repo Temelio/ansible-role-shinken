@@ -1,0 +1,17 @@
+# {{ ansible_managed }}
+
+define contact {
+{% for key, value in (item | dictsort) %}
+{% if ((value is string) and (value != '')) or (value is number) %}
+    {{ "%-40s %s" | format(key, value) }}
+{% elif (value is sequence) and value %}
+{% if key == 'addresses' %}
+{% for address in item.addresses %}
+    {{ "%-40s %s" | format(('address' ~ loop.index), address) }}
+{% endfor %}
+{% else %}
+    {{ "%-40s %s" | format(key, (value | join(','))) }}
+{% endif %}
+{% endif %}
+{% endfor %}
+}

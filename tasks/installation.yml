@@ -62,21 +62,6 @@
   with_dict: "{{ shinken_daemons }}"
 
 
-- name: Install additional modules using shinken.io
-  become: True
-  shell: "su - {{ shinken_user_name }} -c 'shinken install {{ item.name }}'"
-  register: 'shinken_modules_install_shinken_io'
-  with_items: "{{ shinken_modules }}"
-  when: "{{ item.method == 'shinken_io' }}"
-
-
-- name: Install additional modules using custom method
-  include: "{{ role_path }}/tasks/module_installation_{{ item.name }}.yml"
-  register: 'shinken_modules_install_custom'
-  with_items: "{{ shinken_modules }}"
-  when: "{{ item.method == 'custom' }}"
-
-
 - name: Restart daemon if packages changed
   become: True
   service:
@@ -97,3 +82,17 @@
     state: "{{ item.value.started | ternary('started', 'stopped') }}"
   with_dict: "{{ shinken_daemons }}"
 
+
+- name: Install additional modules or packs using shinken.io
+  become: True
+  shell: "su - {{ shinken_user_name }} -c 'shinken install {{ item.name }}'"
+  register: 'shinken_modules_install_shinken_io'
+  with_items: "{{ shinken_modules + shinken_packs }}"
+  when: "{{ item.method == 'shinken_io' }}"
+
+
+- name: Install additional modules or packs using custom git method
+  include: "{{ role_path }}/tasks/module_installation_with_git.yml"
+  register: 'shinken_modules_install_custom'
+  with_items: "{{ shinken_modules + shinken_packs}}"
+  when: "{{ item.method == 'custom_git' }}"

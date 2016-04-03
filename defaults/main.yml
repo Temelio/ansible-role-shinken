@@ -9,6 +9,9 @@ shinken_pip_packages:
     state: 'present'
     version: '2.4.3'
 
+# Clear configuration after a new installation or upgrade
+shinken_clear_configuration_after_install: True
+
 # Used to manage module dependencies (system and pip)
 shinken_pip_additional_packages: []
 shinken_system_additional_packages: []
@@ -21,12 +24,54 @@ shinken_user_password: 'shinken'
 shinken_user_shell: '/bin/bash'
 shinken_user_update_password: 'always'
 
+
+# Shinken config modes
+shinken_config_files_mode: '0600'
+shinken_config_folders_mode: '0700'
+
 # Shinken paths
 shinken_paths_etc: '/etc/shinken'
 shinken_paths_run: '/var/run/shinken'
 shinken_paths_log: '/var/log/shinken'
+shinken_paths_configuration:
+  - "{{ shinken_paths_etc }}/arbiters"
+  - "{{ shinken_paths_etc }}/brokers"
+  - "{{ shinken_paths_etc }}/commands"
+  - "{{ shinken_paths_etc }}/contactgroups"
+  - "{{ shinken_paths_etc }}/contacts"
+  - "{{ shinken_paths_etc }}/daemons"
+  - "{{ shinken_paths_etc }}/dependencies"
+  - "{{ shinken_paths_etc }}/discovery"
+  - "{{ shinken_paths_etc }}/escalations"
+  - "{{ shinken_paths_etc }}/hostgroups"
+  - "{{ shinken_paths_etc }}/hosts"
+  - "{{ shinken_paths_etc }}/modules"
+  - "{{ shinken_paths_etc }}/notificationways"
+  - "{{ shinken_paths_etc }}/packs"
+  - "{{ shinken_paths_etc }}/pollers"
+  - "{{ shinken_paths_etc }}/reactionners"
+  - "{{ shinken_paths_etc }}/realms"
+  - "{{ shinken_paths_etc }}/receivers"
+  - "{{ shinken_paths_etc }}/resource.d"
+  - "{{ shinken_paths_etc }}/schedulers"
+  - "{{ shinken_paths_etc }}/servicegroups"
+  - "{{ shinken_paths_etc }}/services"
+  - "{{ shinken_paths_etc }}/templates"
+  - "{{ shinken_paths_etc }}/timeperiods"
 
-shinken_config_files_mode: '0600'
+shinken_resources:
+  - name: 'paths'
+    variables:
+      - name: '$USER1$'
+        value: '$NAGIOSPLUGINSDIR$'
+      - name: '$NAGIOSPLUGINSDIR$'
+        value: '/usr/lib/nagios/plugins'
+      - name: '$PLUGINSDIR$'
+        value: '/var/lib/shinken/libexec'
+  - name: 'snmp'
+    variables:
+      - name: '$SNMPCOMMUNITYREAD$'
+        value: 'public'
 
 # Daemons
 shinken_daemons:
@@ -55,35 +100,58 @@ shinken_daemons:
     enabled: True
     started: True
 
+shinken_daemon_defaults:
+  workdir: "{{ shinken_paths_run }}"
+  logdir: "{{ shinken_paths_log }}"
+  user: "{{ shinken_user_name }}"
+  group: "{{ shinken_user_group }}"
+  host: '0.0.0.0'
+  idontcareaboutsecurity: 0
+  daemon_enabled: 1
+  use_local_log: 1
+  log_level: 'WARNING'
+  max_queue_size: 100000
+  modules_dir: "{{ shinken_user_home }}/modules"
+  ssl:
+    use_ssl: 0
+    ca_cert: "/etc/shinken/certs/ca.pem"
+    server_cert: "/etc/shinken/certs/server.cert"
+    server_key: "/etc/shinken/certs/server.key"
+    hard_ssl_name_check: 0
+    http_backend: 'auto'
+    daemon_thread_pool_size: 16
+
+shinken_brokerd:
+  pidfile: "{{ shinken_paths_run }}/brokerd.pid"
+  port: 7772
+  local_log: "{{ shinken_paths_log }}/brokerd.log"
+
+shinken_pollerd:
+  pidfile: "{{ shinken_paths_run }}/pollerd.pid"
+  port: 7771
+  local_log: "{{ shinken_paths_log }}/pollerd.log"
+
+shinken_reactionnerd:
+  pidfile: "{{ shinken_paths_run }}/reactionnerd.pid"
+  port: 7769
+  local_log: "{{ shinken_paths_log }}/reactionnerd.log"
+
+shinken_receiverd:
+  pidfile: "{{ shinken_paths_run }}/receiverd.pid"
+  port: 7773
+  local_log: "{{ shinken_paths_log }}/receiverd.log"
+
+shinken_schedulerd:
+  pidfile: "{{ shinken_paths_run }}/schedulerd.pid"
+  port: 7768
+  local_log: "{{ shinken_paths_log }}/brokerd.log"
+
 # Modules
 shinken_modules: []
 
 # Main configuration file
 #------------------------
-shinken_main_config_directories:
-  - 'commands'
-  - 'timeperiods'
-  - 'escalations'
-  - 'dependencies'
-  - 'templates'
-  - 'notificationways'
-  - 'servicegroups'
-  - 'hostgroups'
-  - 'contactgroups'
-  - 'hosts'
-  - 'services'
-  - 'contacts'
-  - 'packs'
-  - 'modules'
-  - 'arbiters'
-  - 'schedulers'
-  - 'pollers'
-  - 'reactionners'
-  - 'brokers'
-  - 'receivers'
-  - 'realms'
-  - 'resource.d'
-
+shinken_main_config_directories: "{{ shinken_paths_configuration }}"
 shinken_main_config_retention_update_interval: 60
 shinken_main_config_max_service_check_spread: 5
 shinken_main_config_max_host_check_spread: 5
@@ -92,7 +160,7 @@ shinken_main_config_timeout_exit_status: 2
 shinken_main_config_flap_history: 20
 shinken_main_config_max_plugins_output_length: 65536
 shinken_main_config_enable_problem_impacts_states_change: 1
-shinken_main_config_disable_old_nagios_parameters_whining: 0
+shinken_main_config_disable_old_nagios_parameters_whining: 1
 shinken_main_config_use_timezone: ''
 shinken_main_config_enable_environment_macros: 0
 shinken_main_config_log_initial_states: 0
@@ -126,7 +194,7 @@ shinken_main_config_statsd_enabled: 0
 
 # Shinken brokers
 shinken_brokers:
-  - name: 'broker-master'
+  - broker_name: 'broker-master'
     address: '127.0.0.1'
     port: 7772
     spare: 0
@@ -143,7 +211,7 @@ shinken_brokers:
 
 # Shinken schedulers
 shinken_schedulers:
-  - name: 'scheduler-master'
+  - scheduler_name: 'scheduler-master'
     address: '127.0.0.1'
     port: 7768
     spare: 0
@@ -159,3 +227,100 @@ shinken_schedulers:
     hard_ssl_name_check: 0
     realm: 'All'
 
+# Shinken receivers
+shinken_receivers:
+  - receiver_name: 'receiver-master'
+    address: '127.0.0.1'
+    port: 7773
+    spare: 0
+    timeout: 3
+    data_timeout: 120
+    max_check_attempts: 3
+    check_interval: 60
+    modules: []
+    use_ssl: 0
+    hard_ssl_name_check: 0
+    realm: 'All'
+    direct_routing: 0
+
+# Shinken reactionners
+shinken_reactionners:
+  - reactionner_name: 'reactionner-master'
+    address: '127.0.0.1'
+    port: 7769
+    spare: 0
+    manage_sub_realms: 0
+    min_workers: 1
+    max_workers: 15
+    polling_interval: 1
+    timeout: 3
+    data_timeout: 120
+    max_check_attempts: 3
+    check_interval: 60
+    modules: []
+    reactionner_tags:
+      - 'None'
+    use_ssl: 0
+    hard_ssl_name_check: 0
+    realm: 'All'
+
+# Shinken pollers
+shinken_pollers:
+  - poller_name: 'poller-master'
+    address: '127.0.0.1'
+    port: 7771
+    spare: 0
+    manage_sub_realms: 0
+    min_workers: 0
+    max_workers: 0
+    processes_by_worker: 256
+    polling_interval: 1
+    timeout: 3
+    data_timeout: 120
+    max_check_attempts: 3
+    check_interval: 60
+    modules: []
+    passive: 0
+    poller_tags:
+      - 'None'
+    use_ssl: 0
+    hard_ssl_name_check: 0
+    realm: 'All'
+
+# Shinken arbiters
+shinken_arbiters:
+  - arbiter_name: 'arbiter-master'
+    host_name: ''
+    address: '127.0.0.1'
+    port: 7770
+    spare: 0
+    timeout: 3
+    data_timeout: 120
+    max_check_attempts: 3
+    check_interval: 60
+    modules: []
+    use_ssl: 0
+    hard_ssl_name_check: 0
+
+# Shinken realms
+shinken_realms:
+  - realm_name: 'All'
+    default: 1
+
+# Configuration elements
+shinken_contacts: []
+shinken_contact_templates: []
+shinken_contactgroups: []
+shinken_hostgroups: []
+shinken_servicegroups: []
+shinken_timeperiods: []
+shinken_notficationways: []
+shinken_commands: []
+shinken_hosts: []
+shinken_host_templates: []
+shinken_services: []
+shinken_service_templates: []
+shinken_host_dependencies: []
+shinken_service_dependencies: []
+shinken_host_escalations: []
+shinken_service_escalations: []

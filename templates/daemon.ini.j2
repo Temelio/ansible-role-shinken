@@ -1,0 +1,33 @@
+# {{ ansible_managed }}
+
+[daemon]
+
+# Paths and files
+workdir = {{ item.workdir }}
+logdir = {{ item.logdir }}
+pidfile = {{ item.pidfile }}
+modules_dir = {{ item.modules_dir }}
+
+# General
+user = {{ item.user }}
+group = {{ item.group }}
+host = {{ item.host }}
+port = {{ item.port }}
+idontcareaboutsecurity = {{ item.idontcareaboutsecurity }}
+daemon_enabled = {{ item.daemon_enabled }}
+
+# SSL configuration
+use_ssl = {{ item.ssl.use_ssl }}
+{% if item.ssl.use_ssl == 1 %}
+ca_cert = {{ item.ssl.ca_cert }}
+server_cert = {{ item.ssl.server_cert }}
+server_key = {{ item.ssl.server_key }}
+hard_ssl_name_check = {{ item.ssl.hard_ssl_name_check }}
+{% endif %}
+http_backend = {{ item.ssl.http_backend }}
+daemon_thread_pool_size = {{ item.ssl.daemon_thread_pool_size }}
+
+# Local log management
+use_local_log = {{ item.use_local_log }}
+local_log = {{ item.local_log }}
+log_level = {{ item.log_level }}

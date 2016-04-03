@@ -1,0 +1,268 @@
+---
+
+# Variables used to test role
+
+# Shinken contacts
+shinken_contacts:
+  - contact_name: 'contact_full'
+    alias: 'Contact with full settings'
+    contactgroups:
+      - 'contactgroup_full'
+    host_notifications_enabled: 1
+    service_notifications_enabled: 1
+    notificationways:
+      - 'notificationway_full'
+    email: 'shinken@localhost'
+    pager: '0600000000'
+    addresses:
+      - 'shinken1@localhost'
+      - 'shinken2@localhost'
+    can_submit_commands: 1
+    is_admin: 1
+    retain_status_information: 1
+    retain_nonstatus_information: 1
+    password: 'admin'
+    expert: 1
+  - contact_name: 'contact_minimal'
+    use:
+      - 'foobar_contact'
+
+shinken_contact_templates:
+  - name: 'foobar_contact'
+    is_admin: 0
+    can_submit_commands: 0
+    notificationways:
+      - 'notificationway_minimal'
+    register: 0
+
+# Shinken contactgroups
+shinken_contactgroups:
+  - contactgroup_name: 'contactgroup_full'
+    alias: 'Full contactgroup definition'
+    members:
+      - 'contact_full'
+    contactgroup_members:
+      - 'contactgroup_minimal'
+  - contactgroup_name: 'contactgroup_minimal'
+    alias: 'Minimal contactgroup definition'
+
+# Shinken hostgroups
+shinken_hostgroups:
+  - hostgroup_name: 'hostgroup_full'
+    alias: 'Hostgroup full'
+    members: []
+    hostgroup_members: []
+    note: 'foo_note'
+    notes_url: 'foo_note_url'
+    action_url: 'foo_action_url'
+  - hostgroup_name: 'hostgroup_minimal'
+    alias: 'Minimal hostgroup'
+    members: []
+
+# Shinken servicegroups
+shinken_servicegroups:
+  - servicegroup_name: 'servicegroup_full'
+    alias: 'Full servicegroup definition'
+    members: []
+    servicegroup_members: []
+    notes: ''
+    notes_url: ''
+    action_url: ''
+  - servicegroup_name: 'servicegroup_minimal'
+    alias: 'Minimal servicegroup definition'
+
+# Shinken timeperiods
+shinken_timeperiods:
+  - timeperiod_name: 'timeperiod_full'
+    alias: 'Normal workhours'
+    monday: '09:00-17:00'
+    tuesday: '09:00-17:00'
+    wednesday: '09:00-17:00'
+    thursday: '09:00-17:00'
+    friday:
+      - '09:00-17:00'
+      - '19:00-19:30'
+    saturday: '09:00-17:00'
+    sunday: '09:00-17:00'
+    exclude:
+      - 'timeperiod_minimal'
+  - timeperiod_name: 'timeperiod_minimal'
+    alias: 'None'
+
+shinken_realms:
+  - realm_name: 'All'
+    realm_members: []
+    default: 1
+  - realm_name: 'foo'
+    realm_members: []
+    default: 0
+
+shinken_notificationways:
+  - notificationway_name: 'notificationway_full'
+    host_notification_period: 'timeperiod_full'
+    service_notification_period: 'timeperiod_minimal'
+    host_notification_options: [ 'd', 'c' ]
+    service_notification_options: [ 'u', 'w', 'c' ]
+    host_notification_commands:
+      - 'command_full'
+    service_notification_commands:
+      - 'command_full'
+    min_business_impact: 1
+  - notificationway_name: 'notificationway_minimal'
+    host_notification_period: 'timeperiod_full'
+    service_notification_period: 'timeperiod_minimal'
+    host_notification_options: [ 'd', 'c' ]
+    service_notification_options: [ 'u', 'w', 'c' ]
+    host_notification_commands:
+      - 'command_full'
+    service_notification_commands:
+      - 'command_full'
+
+shinken_commands:
+  - command_name: 'command_full'
+    command_line: 'command_full_line'
+    poller_tag: 'tag_foo'
+  - command_name: 'command_minimal'
+    command_line: 'command_minimal_line'
+
+shinken_services:
+  - host_name: 'host_overrides'
+    service_description: 'service_overrides_1'
+    retry_interval: 3
+    check_command: 'command_full'
+    check_interval: 2
+  - host_name: 'host_overrides'
+    service_description: 'service_overrides_2'
+    retry_interval: 3
+    check_command: 'command_full'
+    check_interval: 2
+  - host_name: 'host_excludes'
+    service_description: 'service_excludes_1'
+    retry_interval: 3
+    check_command: 'command_full'
+    check_interval: 2
+  - host_name: 'host_excludes'
+    use:
+      - 'foobar_service'
+    service_description: 'service_excludes_2'
+    retry_interval: 3
+    check_command: 'command_full'
+    check_interval: 2
+
+shinken_service_templates:
+  - name: 'foobar_service'
+    max_check_attempt: 20
+    register: 0
+
+shinken_hosts:
+  - host_name: 'host_overrides'
+    address: '127.0.0.1'
+    contact_groups:
+      - 'contactgroup_full'
+    max_check_attempts: 3
+    service_overrides:
+      - service: 'service_overrides_1'
+        key: 'check_interval'
+        value: 0
+      - service: 'service_overrides_2'
+        key: 'retry_interval'
+        value: 10
+  - host_name: 'host_excludes'
+    address: '127.0.0.1'
+    contact_groups:
+      - 'contactgroup_full'
+    max_check_attempts: 3
+    service_excludes:
+      - 'service_exclude_1'
+      - 'service_exclude_2'
+    use:
+      - 'foobar_host'
+
+shinken_host_templates:
+  - name: 'foobar_host'
+    max_check_attempt: 2
+    register: 0
+
+shinken_host_dependencies:
+  - dependency_name: 'dependency_bar'
+    dependent_host_name: 'host_overrides'
+    host_name: 'host_excludes'
+    execution_failure_criteria: ['d', 'u']
+
+shinken_service_dependencies:
+  - dependency_name: 'dependency_foo'
+    dependent_host_name: 'host_overrides'
+    dependent_service_description: 'service_overrides_1'
+    host_name: 'host_excludes'
+    service_description: 'service_excludes_1'
+    execution_failure_criteria: ['c']
+
+shinken_host_escalations:
+  - escalation_name: 'escalation_bar'
+    host_name: 'host_excludes'
+    contact_groups:
+      - 'contactgroup_full'
+    first_notification: 60
+    last_notification: 180
+
+shinken_service_escalations:
+  - escalation_name: 'escalation_foo'
+    host_name: 'host_overrides'
+    service_description: 'service_overrides_2'
+    contact_groups:
+      - 'contactgroup_minimal'
+    first_notification: 30
+    last_notification: 90
+
+shinken_modules:
+  - name: 'mongo-logs'
+    method: 'shinken_io'
+    config:
+      module_name: 'mongo-logs'
+      module_type: 'mongo-logs'
+  - name: 'retention-redis'
+    method: 'shinken_io'
+    config:
+      module_name: 'RedisRetention'
+      module_type: 'redis_retention'
+      server: '127.0.0.1'
+  - name: 'webui2'
+    method: 'shinken_io'
+    config:
+      module_name: 'webui2'
+      module_type: 'webui2'
+      modules:
+        - 'ui-graphite2'
+      auth_secret: 'foobar'
+      login_text: 'foo message'
+  - name: 'graphite'
+    method: 'shinken_io'
+    config:
+      module_name: 'graphite'
+      module_type: 'graphite_perfdata'
+      host: 'localhost'
+      port: 2003
+  - name: 'ui-graphite2'
+    method: 'shinken_io'
+    config:
+      module_name: 'ui-graphite2'
+      module_type: 'graphite-webui'
+      uri: 'http://YOURSERVERNAME/'
+      templates_path: '/var/lib/shinken/share/templates/graphite/'
+      dashboard_view_font: 8
+      dashboard_view_width: 320
+      dashboard_view_height: 240
+      detail_view_font: 10
+      detail_view_width: 786
+      detail_view_height: 308
+      color_warning: 'orange'
+      color_critical: 'red'
+      color_min: 'black'
+      color_max: 'blue'
+
+shinken_packs:
+  - name: 'pack-linux-ssh'
+    method: 'custom_git'
+    install:
+      repo: 'https://github.com/Temelio/pack-linux-ssh.git'
+      version: 'waiting_pr'
