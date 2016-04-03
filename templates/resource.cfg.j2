@@ -1,0 +1,5 @@
+# {{ ansible_managed }}
+
+{% for current_var in item.variables %}
+{{ "%s=%s" | format(current_var.name, current_var.value) }}
+{% endfor %}

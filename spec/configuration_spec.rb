@@ -83,6 +83,20 @@ describe 'shinken Ansible role configuration' do
         it { should be_grouped_into shinken_group }
     end
 
+    # Resources configuration files
+    describe file("#{shinken_path_etc}/resource.d/paths.cfg") do
+        it { should exist }
+        it { should be_file }
+        it { should be_owned_by shinken_user }
+        it { should be_grouped_into shinken_group }
+    end
+    describe file("#{shinken_path_etc}/resource.d/snmp.cfg") do
+        it { should exist }
+        it { should be_file }
+        it { should be_owned_by shinken_user }
+        it { should be_grouped_into shinken_group }
+    end
+
     # Host configuration files
     describe file("#{shinken_path_etc}/hosts/host_excludes.cfg") do
         it { should exist }

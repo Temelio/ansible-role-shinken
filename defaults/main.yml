@@ -61,7 +61,7 @@ shinken_path_configuration:
   - "{{ shinken_paths_etc }}/templates"
   - "{{ shinken_paths_etc }}/timeperiods"
 
-shinken_ressources:
+shinken_resources:
   - name: 'paths'
     variables:
       - name: '$USER1$'
