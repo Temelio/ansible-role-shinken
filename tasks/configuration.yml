@@ -275,3 +275,29 @@
     mode: "{{ shinken_config_files_mode }}"
   notify: 'Restart Shinken'
   with_items: "{{ shinken_service_dependencies }}"
+
+
+- name: Generate host escalations definition files
+  become: True
+  template:
+    src: "{{ role_path }}/templates/host_escalation.cfg.j2"
+    dest: "{{ shinken_paths_etc ~ '/escalations/'
+              ~ 'host__' ~ (item.escalation_name | lower) ~ '.cfg' }}"
+    owner: "{{ shinken_user_name }}"
+    group: "{{ shinken_user_group }}"
+    mode: "{{ shinken_config_files_mode }}"
+  notify: 'Restart Shinken'
+  with_items: "{{ shinken_host_escalations }}"
+
+
+- name: Generate service escalations definition files
+  become: True
+  template:
+    src: "{{ role_path }}/templates/service_escalation.cfg.j2"
+    dest: "{{ shinken_paths_etc ~ '/escalations/'
+              ~ 'service__' ~ (item.escalation_name | lower) ~ '.cfg' }}"
+    owner: "{{ shinken_user_name }}"
+    group: "{{ shinken_user_group }}"
+    mode: "{{ shinken_config_files_mode }}"
+  notify: 'Restart Shinken'
+  with_items: "{{ shinken_service_escalations }}"

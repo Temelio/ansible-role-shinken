@@ -212,5 +212,19 @@ describe 'shinken Ansible role configuration' do
         it { should be_owned_by shinken_user }
         it { should be_grouped_into shinken_group }
     end
+
+    # Escalations testing
+    describe file("#{shinken_path_etc}/escalations/host__escalation_bar.cfg") do
+        it { should exist }
+        it { should be_file }
+        it { should be_owned_by shinken_user }
+        it { should be_grouped_into shinken_group }
+    end
+    describe file("#{shinken_path_etc}/escalations/service__escalation_foo.cfg") do
+        it { should exist }
+        it { should be_file }
+        it { should be_owned_by shinken_user }
+        it { should be_grouped_into shinken_group }
+    end
 end
 

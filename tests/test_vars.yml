@@ -172,3 +172,20 @@ shinken_service_dependencies:
     host_name: 'host_excludes'
     service_description: 'service_excludes_1'
     execution_failure_criteria: ['c']
+
+shinken_host_escalations:
+  - escalation_name: 'escalation_bar'
+    host_name: 'host_excludes'
+    contact_groups:
+      - 'contactgroup_full'
+    first_notification: 60
+    last_notification: 180
+
+shinken_service_escalations:
+  - escalation_name: 'escalation_foo'
+    host_name: 'host_overrides'
+    service_description: 'service_overrides_2'
+    contact_groups:
+      - 'contactgroup_minimal'
+    first_notification: 30
+    last_notification: 90
