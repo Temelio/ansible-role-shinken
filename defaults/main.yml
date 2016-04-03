@@ -9,9 +9,6 @@ shinken_pip_packages:
     state: 'present'
     version: '2.4.3'
 
-# Do manage additional settings in cluster mode
-is_monitoring_cluster: False
-
 # Clear configuration after a new installation or upgrade
 shinken_clear_configuration_after_install: True
 
