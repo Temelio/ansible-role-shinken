@@ -24,6 +24,16 @@ shinken_contacts:
     password: 'admin'
     expert: 1
   - contact_name: 'contact_minimal'
+    use:
+      - 'foobar_contact'
+
+shinken_contact_templates:
+  - name: 'foobar_contact'
+    is_admin: 0
+    can_submit_commands: 0
+    notificationways:
+      - 'notificationway_minimal'
+    register: 0
 
 # Shinken contactgroups
 shinken_contactgroups:
@@ -132,10 +142,17 @@ shinken_services:
     check_command: 'command_full'
     check_interval: 2
   - host_name: 'host_excludes'
+    use:
+      - 'foobar_service'
     service_description: 'service_excludes_2'
     retry_interval: 3
     check_command: 'command_full'
     check_interval: 2
+
+shinken_service_templates:
+  - name: 'foobar_service'
+    max_check_attempt: 20
+    register: 0
 
 shinken_hosts:
   - host_name: 'host_overrides'
@@ -158,6 +175,13 @@ shinken_hosts:
     service_excludes:
       - 'service_exclude_1'
       - 'service_exclude_2'
+    use:
+      - 'foobar_host'
+
+shinken_host_templates:
+  - name: 'foobar_host'
+    max_check_attempt: 2
+    register: 0
 
 shinken_host_dependencies:
   - dependency_name: 'dependency_bar'

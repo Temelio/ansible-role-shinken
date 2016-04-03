@@ -311,6 +311,7 @@ shinken_realms:
 
 # Configuration elements
 shinken_contacts: []
+shinken_contact_templates: []
 shinken_contactgroups: []
 shinken_hostgroups: []
 shinken_servicegroups: []
@@ -318,7 +319,9 @@ shinken_timeperiods: []
 shinken_notficationways: []
 shinken_commands: []
 shinken_hosts: []
+shinken_host_templates: []
 shinken_services: []
+shinken_service_templates: []
 shinken_host_dependencies: []
 shinken_service_dependencies: []
 shinken_host_escalations: []

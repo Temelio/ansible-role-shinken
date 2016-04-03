@@ -148,6 +148,18 @@
   with_items: "{{ shinken_resources }}"
 
 
+- name: Generate hosts templates files
+  become: True
+  template:
+    src: "{{ role_path }}/templates/host.cfg.j2"
+    dest: "{{ shinken_paths_etc }}/templates/host__{{ item.name | lower }}.cfg"
+    owner: "{{ shinken_user_name }}"
+    group: "{{ shinken_user_group }}"
+    mode: "{{ shinken_config_files_mode }}"
+  notify: 'Restart Shinken'
+  with_items: "{{ shinken_host_templates }}"
+
+
 - name: Generate hosts definition files
   become: True
   template:
@@ -158,6 +170,19 @@
     mode: "{{ shinken_config_files_mode }}"
   notify: 'Restart Shinken'
   with_items: "{{ shinken_hosts }}"
+
+
+- name: Generate services templates files
+  become: True
+  template:
+    src: "{{ role_path }}/templates/service.cfg.j2"
+    dest: "{{ shinken_paths_etc }}/templates/service__{{
+              item.name | lower }}.cfg"
+    owner: "{{ shinken_user_name }}"
+    group: "{{ shinken_user_group }}"
+    mode: "{{ shinken_config_files_mode }}"
+  notify: 'Restart Shinken'
+  with_items: "{{ shinken_service_templates }}"
 
 
 - name: Generate services definition files
@@ -184,6 +209,19 @@
     mode: "{{ shinken_config_files_mode }}"
   notify: 'Restart Shinken'
   with_items: "{{ shinken_realms }}"
+
+
+- name: Generate contacts templates files
+  become: True
+  template:
+    src: "{{ role_path }}/templates/contact.cfg.j2"
+    dest: "{{ shinken_paths_etc }}/templates/contact__{{
+              item.name | lower }}.cfg"
+    owner: "{{ shinken_user_name }}"
+    group: "{{ shinken_user_group }}"
+    mode: "{{ shinken_config_files_mode }}"
+  notify: 'Restart Shinken'
+  with_items: "{{ shinken_contact_templates }}"
 
 
 - name: Generate contacts definition files
