@@ -158,3 +158,17 @@ shinken_hosts:
     service_excludes:
       - 'service_exclude_1'
       - 'service_exclude_2'
+
+shinken_host_dependencies:
+  - dependency_name: 'dependency_bar'
+    dependent_host_name: 'host_overrides'
+    host_name: 'host_excludes'
+    execution_failure_criteria: ['d', 'u']
+
+shinken_service_dependencies:
+  - dependency_name: 'dependency_foo'
+    dependent_host_name: 'host_overrides'
+    dependent_service_description: 'service_overrides_1'
+    host_name: 'host_excludes'
+    service_description: 'service_excludes_1'
+    execution_failure_criteria: ['c']

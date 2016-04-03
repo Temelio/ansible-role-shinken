@@ -326,4 +326,5 @@ shinken_notficationways: []
 shinken_commands: []
 shinken_hosts: []
 shinken_services: []
-
+shinken_host_dependencies: []
+shinken_service_dependencies: []
