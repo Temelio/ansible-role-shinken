@@ -48,7 +48,7 @@
     group: "{{ shinken_user_group }}"
     mode: "{{ shinken_config_folders_mode }}"
     state: 'directory'
-  with_items: "{{ shinken_path_configuration }}"
+  with_items: "{{ shinken_paths_configuration }}"
   notify: 'Restart Shinken'
 
 

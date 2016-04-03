@@ -24,15 +24,16 @@ shinken_user_password: 'shinken'
 shinken_user_shell: '/bin/bash'
 shinken_user_update_password: 'always'
 
+
+# Shinken config modes
+shinken_config_files_mode: '0600'
+shinken_config_folders_mode: '0700'
+
 # Shinken paths
 shinken_paths_etc: '/etc/shinken'
 shinken_paths_run: '/var/run/shinken'
 shinken_paths_log: '/var/log/shinken'
-
-shinken_config_files_mode: '0600'
-shinken_config_folders_mode: '0700'
-
-shinken_path_configuration:
+shinken_paths_configuration:
   - "{{ shinken_paths_etc }}/arbiters"
   - "{{ shinken_paths_etc }}/brokers"
   - "{{ shinken_paths_etc }}/commands"
@@ -150,7 +151,7 @@ shinken_modules: []
 
 # Main configuration file
 #------------------------
-shinken_main_config_directories: "{{ shinken_path_configuration }}"
+shinken_main_config_directories: "{{ shinken_paths_configuration }}"
 shinken_main_config_retention_update_interval: 60
 shinken_main_config_max_service_check_spread: 5
 shinken_main_config_max_host_check_spread: 5
