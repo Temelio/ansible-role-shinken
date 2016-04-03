@@ -65,26 +65,19 @@ shinken_servicegroups:
 shinken_timeperiods:
   - timeperiod_name: 'timeperiod_full'
     alias: 'Normal workhours'
-    entries:
-      - period: 'monday'
-        time: '09:00-17:00'
-      - period: 'tuesday'
-        time: '09:00-17:00'
-      - period: 'wednesday'
-        time: '09:00-17:00'
-      - period: 'thursday'
-        time: '09:00-17:00'
-      - period: 'friday'
-        time: '09:00-17:00'
-      - period: 'saturday'
-        time: '09:00-17:00'
-      - period: 'sunday'
-        time: '09:00-17:00'
+    monday: '09:00-17:00'
+    tuesday: '09:00-17:00'
+    wednesday: '09:00-17:00'
+    thursday: '09:00-17:00'
+    friday:
+      - '09:00-17:00'
+      - '19:00-19:30'
+    saturday: '09:00-17:00'
+    sunday: '09:00-17:00'
     exclude:
       - 'timeperiod_minimal'
   - timeperiod_name: 'timeperiod_minimal'
     alias: 'None'
-    entries: []
 
 shinken_realms:
   - realm_name: 'All'

@@ -1,13 +1,5 @@
 # {{ ansible_managed }}
 
 define timeperiod {
-    timeperiod_name     {{ item.timeperiod_name }}
-    alias               {{ item.alias }}
-{% for entry in item.entries %}
-    {{ entry.period }}  {{ entry.time }}
-{% endfor %}
-{% if item.exclude is defined %}
-    exclude             {{ item.exclude | join(', ') }}
-{% endif %}
+{% include('./section_common.j2') %}
 }
-
