@@ -1,14 +1,5 @@
 # {{ ansible_managed }}
 
 define realm {
-{% if item.realm_name is defined %}
-    realm_name      {{ item.realm_name }}
-{% endif %}
-{% if item.realm_members is defined %}
-    realm_members   {{ item.realm_members | join(',')  }}
-{% endif %}
-{% if item.realm_members is defined %}
-    default         {{ item.default }}
-{% endif %}
+{% include('./section_common.j2') %}
 }
-
