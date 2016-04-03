@@ -153,30 +153,7 @@ shinken_modules: []
 
 # Main configuration file
 #------------------------
-shinken_main_config_directories:
-  - 'commands'
-  - 'timeperiods'
-  - 'escalations'
-  - 'dependencies'
-  - 'templates'
-  - 'notificationways'
-  - 'servicegroups'
-  - 'hostgroups'
-  - 'contactgroups'
-  - 'hosts'
-  - 'services'
-  - 'contacts'
-  - 'packs'
-  - 'modules'
-  - 'arbiters'
-  - 'schedulers'
-  - 'pollers'
-  - 'reactionners'
-  - 'brokers'
-  - 'receivers'
-  - 'realms'
-  - 'resource.d'
-
+shinken_main_config_directories: "{{ shinken_path_configuration }}"
 shinken_main_config_retention_update_interval: 60
 shinken_main_config_max_service_check_spread: 5
 shinken_main_config_max_host_check_spread: 5
