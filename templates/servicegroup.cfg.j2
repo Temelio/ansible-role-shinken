@@ -1,20 +1,5 @@
-define servicegroup {
-    servicegroup_name       {{ item.servicegroup_name }}
-    alias                   {{ item.alias }}
-{% if item.members is defined %}
-    members                 {{ item.members | join(',') }}
-{% endif %}
-{% if item.servicegroup_members is defined %}
-    servicegroup_members    {{ item.servicegroup_members | join(',') }}
-{% endif %}
-{% if item.notes is defined %}
-    notes                   {{ item.notes }}
-{% endif %}
-{% if item.notes_url is defined %}
-    notes_url               {{ item.notes_url }}
-{% endif %}
-{% if item.action_url is defined %}
-    action_url              {{ item.action_url }}
-{% endif %}
-}
+# {{ ansible_managed }}
 
+define servicegroup {
+{% include('./section_common.j2') %}
+}
