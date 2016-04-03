@@ -282,5 +282,37 @@ describe 'shinken Ansible role configuration' do
         it { should be_owned_by shinken_user }
         it { should be_grouped_into shinken_group }
     end
+
+    # Modules configuration testing
+    describe file("#{shinken_path_etc}/modules/graphite.cfg") do
+        it { should exist }
+        it { should be_file }
+        it { should be_owned_by shinken_user }
+        it { should be_grouped_into shinken_group }
+    end
+    describe file("#{shinken_path_etc}/modules/mongo-logs.cfg") do
+        it { should exist }
+        it { should be_file }
+        it { should be_owned_by shinken_user }
+        it { should be_grouped_into shinken_group }
+    end
+    describe file("#{shinken_path_etc}/modules/retention-redis.cfg") do
+        it { should exist }
+        it { should be_file }
+        it { should be_owned_by shinken_user }
+        it { should be_grouped_into shinken_group }
+    end
+    describe file("#{shinken_path_etc}/modules/ui-graphite2.cfg") do
+        it { should exist }
+        it { should be_file }
+        it { should be_owned_by shinken_user }
+        it { should be_grouped_into shinken_group }
+    end
+    describe file("#{shinken_path_etc}/modules/webui2.cfg") do
+        it { should exist }
+        it { should be_file }
+        it { should be_owned_by shinken_user }
+        it { should be_grouped_into shinken_group }
+    end
 end
 

@@ -213,3 +213,49 @@ shinken_service_escalations:
       - 'contactgroup_minimal'
     first_notification: 30
     last_notification: 90
+
+shinken_modules:
+  - name: 'mongo-logs'
+    method: 'shinken_io'
+    config:
+      module_name: 'mongo-logs'
+      module_type: 'mongo-logs'
+  - name: 'retention-redis'
+    method: 'shinken_io'
+    config:
+      module_name: 'RedisRetention'
+      module_type: 'redis_retention'
+      server: '127.0.0.1'
+  - name: 'webui2'
+    method: 'shinken_io'
+    config:
+      module_name: 'webui2'
+      module_type: 'webui2'
+      modules:
+        - 'ui-graphite2'
+      auth_secret: 'foobar'
+      login_text: 'foo message'
+  - name: 'graphite'
+    method: 'shinken_io'
+    config:
+      module_name: 'graphite'
+      module_type: 'graphite_perfdata'
+      host: 'localhost'
+      port: 2003
+  - name: 'ui-graphite2'
+    method: 'shinken_io'
+    config:
+      module_name: 'ui-graphite2'
+      module_type: 'graphite-webui'
+      uri: 'http://YOURSERVERNAME/'
+      templates_path: '/var/lib/shinken/share/templates/graphite/'
+      dashboard_view_font: 8
+      dashboard_view_width: 320
+      dashboard_view_height: 240
+      detail_view_font: 10
+      detail_view_width: 786
+      detail_view_height: 308
+      color_warning: 'orange'
+      color_critical: 'red'
+      color_min: 'black'
+      color_max: 'blue'
