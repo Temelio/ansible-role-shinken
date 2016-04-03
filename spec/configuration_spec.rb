@@ -192,5 +192,19 @@ describe 'shinken Ansible role configuration' do
         it { should be_owned_by shinken_user }
         it { should be_grouped_into shinken_group }
     end
+
+    # Notificationway testing
+    describe file("#{shinken_path_etc}/notificationways/notificationway_full.cfg") do
+        it { should exist }
+        it { should be_file }
+        it { should be_owned_by shinken_user }
+        it { should be_grouped_into shinken_group }
+    end
+    describe file("#{shinken_path_etc}/notificationways/notificationway_minimal.cfg") do
+        it { should exist }
+        it { should be_file }
+        it { should be_owned_by shinken_user }
+        it { should be_grouped_into shinken_group }
+    end
 end
 
