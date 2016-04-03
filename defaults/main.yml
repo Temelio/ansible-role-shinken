@@ -38,7 +38,6 @@ shinken_config_folders_mode: '0700'
 shinken_path_configuration:
   - "{{ shinken_paths_etc }}/arbiters"
   - "{{ shinken_paths_etc }}/brokers"
-  - "{{ shinken_paths_etc }}/certs"
   - "{{ shinken_paths_etc }}/commands"
   - "{{ shinken_paths_etc }}/contactgroups"
   - "{{ shinken_paths_etc }}/contacts"
