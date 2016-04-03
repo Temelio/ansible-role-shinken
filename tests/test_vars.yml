@@ -21,13 +21,8 @@ shinken_contacts:
     is_admin: 1
     retain_status_information: 1
     retain_nonstatus_information: 1
-    min_business_impact: 1
-    additional_settings:
-      password: 'admin'
-      expert: 1
-      foobar:
-        - 'foo'
-        - 'bar'
+    password: 'admin'
+    expert: 1
   - contact_name: 'contact_minimal'
 
 # Shinken contactgroups
