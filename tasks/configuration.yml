@@ -2,14 +2,6 @@
 
 # All configuration tasks
 
-- name: Check if Shinken initialized
-  become: True
-  shell: "su - {{ shinken_user_name }} -c '/usr/bin/shinken --init'"
-  args:
-    creates: "{{ shinken_user_home }}/.shinken.ini"
-  register: 'shinken_check_initialize'
-
-
 - name: Find all configuration files exclude pack files
   become: True
   command: >

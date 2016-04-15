@@ -83,6 +83,14 @@
   with_dict: "{{ shinken_daemons }}"
 
 
+- name: Initialize Shinken
+  become: True
+  shell: "su - {{ shinken_user_name }} -c '/usr/bin/shinken --init'"
+  args:
+    creates: "{{ shinken_user_home }}/.shinken.ini"
+  register: 'shinken_check_initialize'
+
+
 - name: Install additional modules or packs using shinken.io
   become: True
   shell: "su - {{ shinken_user_name }} -c 'shinken install {{ item.name }}'"
