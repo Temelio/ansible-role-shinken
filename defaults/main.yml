@@ -144,7 +144,7 @@ shinken_receiverd:
 shinken_schedulerd:
   pidfile: "{{ shinken_paths_run }}/schedulerd.pid"
   port: 7768
-  local_log: "{{ shinken_paths_log }}/brokerd.log"
+  local_log: "{{ shinken_paths_log }}/schedulerd.log"
 
 # Modules
 shinken_modules: []
