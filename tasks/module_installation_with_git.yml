@@ -11,6 +11,14 @@
     version: "{{ item.install.version | default('HEAD') }}"
 
 
+# Become_user of previous task should not working as espected :/
+- name: Change owner of downloaded module
+  become: True
+  command: >
+    chown -R {{ shinken_user_name }}:{{ shinken_user_name }}
+    {{ item.install.dest | default('/tmp') }}/{{ item.name }}
+
+
 - name: Install module or pack
   become: True
   shell: "su - {{ shinken_user_name }} -c 'shinken install --local {{ item.install.dest | default('/tmp') }}/{{ item.name }}'"
