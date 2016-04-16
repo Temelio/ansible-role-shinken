@@ -22,3 +22,11 @@
     - 'shinken'
     - 'configuration'
 
+
+- name: Check daemon state is good
+  become: True
+  service:
+    name: "shinken-{{ item.key }}"
+    state: "{{ item.value.started | ternary('started', 'stopped') }}"
+  with_dict: "{{ shinken_daemons }}"
+

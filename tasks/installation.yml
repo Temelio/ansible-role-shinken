@@ -40,6 +40,7 @@
     state: "{{ item.state | default('present') }}"
     version: "{{ item.version }}"
   register: 'shinken_pip_packages_install'
+  notify: 'Restart Shinken'
   with_items: "{{ shinken_pip_packages + shinken_pip_additional_packages }}"
   when: "{{ item.version is defined }}"
 
@@ -51,6 +52,7 @@
     state: "{{ item.state | default('present') }}"
   register: 'shinken_pip_packages_install'
   with_items: "{{ shinken_pip_packages + shinken_pip_additional_packages }}"
+  notify: 'Restart Shinken'
   when: "{{ item.version is not defined }}"
 
 
@@ -62,32 +64,12 @@
   with_dict: "{{ shinken_daemons }}"
 
 
-- name: Restart daemon if packages changed
-  become: True
-  service:
-    name: "shinken-{{ item.key }}"
-    enabled: "{{ item.value.enabled }}"
-    state: 'restarted'
-  with_dict: "{{ shinken_daemons }}"
-  when:
-    - "{{ shinken_system_packages_install.changed
-          or shinken_pip_packages_install.changed }}"
-    - "{{ item.value.started }}"
-
-
-- name: Check daemon state is good
-  become: True
-  service:
-    name: "shinken-{{ item.key }}"
-    state: "{{ item.value.started | ternary('started', 'stopped') }}"
-  with_dict: "{{ shinken_daemons }}"
-
-
 - name: Initialize Shinken
   become: True
   shell: "su - {{ shinken_user_name }} -c '/usr/bin/shinken --init'"
   args:
     creates: "{{ shinken_user_home }}/.shinken.ini"
+  notify: 'Restart Shinken'
   register: 'shinken_check_initialize'
 
 
@@ -96,6 +78,7 @@
   shell: "su - {{ shinken_user_name }} -c 'shinken install {{ item.name }}'"
   register: 'shinken_modules_install_shinken_io'
   with_items: "{{ shinken_modules + shinken_packs }}"
+  notify: 'Restart Shinken'
   when: "{{ item.method == 'shinken_io' }}"
 
 
@@ -103,4 +86,5 @@
   include: "{{ role_path }}/tasks/module_installation_with_git.yml"
   register: 'shinken_modules_install_custom'
   with_items: "{{ shinken_modules + shinken_packs}}"
+  notify: 'Restart Shinken'
   when: "{{ item.method == 'custom_git' }}"
