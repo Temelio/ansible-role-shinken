@@ -29,7 +29,7 @@
     name: "{{ shinken_user_home }}/.ssh"
     owner: "{{ shinken_user_name }}"
     group: "{{ shinken_user_group }}"
-    mode: '0500'
+    mode: "{{ shinken_user_ssh_folder_permissions }}"
     state: 'directory'
 
 

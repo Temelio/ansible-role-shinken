@@ -24,6 +24,9 @@ shinken_user_password: 'shinken'
 shinken_user_shell: '/bin/bash'
 shinken_user_update_password: 'always'
 
+# Shinken .ssh folder permissions
+shinken_user_ssh_folder_permissions: '0700'
+
 
 # Shinken config modes
 shinken_config_files_mode: '0600'
