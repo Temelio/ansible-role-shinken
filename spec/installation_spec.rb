@@ -12,6 +12,7 @@ describe 'shinken Ansible role installation' do
 
     if ['debian', 'ubuntu'].include?(os[:family])
         directories = Array[ '/etc/shinken',
+                             '/var/lib/shinken/.ssh',
                              '/var/lib/shinken/cli',
                              '/var/lib/shinken/doc',
                              '/var/lib/shinken/inventory',
