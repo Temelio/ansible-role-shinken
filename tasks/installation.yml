@@ -23,6 +23,16 @@
     update_password: "{{ shinken_user_update_password }}"
 
 
+- name: Create .ssh folder
+  become: True
+  file:
+    name: "{{ shinken_user_home }}/.ssh"
+    owner: "{{ shinken_user_name }}"
+    group: "{{ shinken_user_group }}"
+    mode: '0500'
+    state: 'directory'
+
+
 - name: Install shinken system dependencies
   become: True
   package:
