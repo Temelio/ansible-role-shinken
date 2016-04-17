@@ -1,0 +1,18 @@
+---
+
+- name: Install additional modules or packs using shinken.io
+  become: True
+  shell: "su - {{ shinken_user_name }} -c 'shinken install {{ item.name }}'"
+  register: 'shinken_modules_install_shinken_io'
+  with_items: "{{ shinken_modules + shinken_packs }}"
+  notify: 'Restart Shinken'
+  when: "{{ item.name not in shinken_modules_packs_installed.stdout_lines }}"
+
+
+- name: Update additional modules or packs using shinken.io
+  become: True
+  shell: "su - {{ shinken_user_name }} -c 'shinken update {{ item.name }}'"
+  register: 'shinken_modules_update_shinken_io'
+  with_items: "{{ shinken_modules + shinken_packs }}"
+  notify: 'Restart Shinken'
+  when: "{{ item.name in shinken_modules_packs_installed.stdout_lines }}"

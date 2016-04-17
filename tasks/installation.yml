@@ -83,9 +83,15 @@
   register: 'shinken_check_initialize'
 
 
-- name: Install additional modules or packs using shinken.io
+- name: Get list of installed modules and packs
   become: True
-  shell: "su - {{ shinken_user_name }} -c 'shinken install {{ item.name }}'"
+  shell: "su - {{ shinken_user_name }} -c 'shinken inventory'"
+  changed_when: False
+  register: 'shinken_modules_packs_installed'
+
+
+- name: Install additional modules or packs using shinken.io method
+  include: "{{ role_path }}/tasks/module_installation_with_shinken_io.yml"
   register: 'shinken_modules_install_shinken_io'
   with_items: "{{ shinken_modules + shinken_packs }}"
   notify: 'Restart Shinken'
