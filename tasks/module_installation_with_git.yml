@@ -2,36 +2,32 @@
 
 # Custom module or pack installation using git
 
-- name: Clone module or pack repository
+- name: 'Clone module or pack repository'
   become: True
   become_user: "{{ shinken_user_name }}"
   git:
     repo: "{{ item.install.repo }}"
-    dest: "{{ item.install.dest | default('/tmp') }}/{{ item.name }}"
+    dest: "{{ item.install.dest | default('/tmp/')}}/{{ item.name }}"
     version: "{{ item.install.version | default('HEAD') }}"
+  when:
+    - "(item.name not in shinken_modules_packs_installed.stdout_lines and item.method == 'custom_git')"
 
 
-# Become_user of previous task should not working as espected :/
-- name: Change owner of downloaded module
+- name: 'Install module or pack'
   become: True
-  command: >
-    chown -R {{ shinken_user_name }}:{{ shinken_user_name }}
-    {{ item.install.dest | default('/tmp') }}/{{ item.name }}
+  become_user: "{{ shinken_user_name }}"
+  shell: "shinken install --local {{ item.install.dest | default('/tmp') }}/{{ item.name }}"
+  when: (item.name not in shinken_modules_packs_installed.stdout_lines and item.method == 'custom_git')
 
 
-- name: Install module or pack
+- name: 'Update module or pack'
   become: True
-  shell: "su - {{ shinken_user_name }} -c 'shinken install --local {{ item.install.dest | default('/tmp') }}/{{ item.name }}'"
-  when: "{{ item.name not in shinken_modules_packs_installed.stdout_lines }}"
+  become_user: "{{ shinken_user_name }}"
+  shell: "shinken update --local {{ item.install.dest | default('/tmp') }}/{{ item.name }}"
+  when: (item.name not in shinken_modules_packs_installed.stdout_lines and item.method == 'custom_git')
 
 
-- name: Update module or pack
-  become: True
-  shell: "su - {{ shinken_user_name }} -c 'shinken update --local {{ item.install.dest | default('/tmp') }}/{{ item.name }}'"
-  when: "{{ item.name in shinken_modules_packs_installed.stdout_lines }}"
-
-
-- name: Remove clone
+- name: 'Remove clone'
   become: True
   file:
     dest: "{{ item.install.dest | default('/tmp') }}/{{ item.name }}"

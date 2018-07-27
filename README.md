@@ -11,55 +11,31 @@ All objects can be defined, using Shinken configuration structures.
 
 ## Requirements
 
-This role requires Ansible 2.0 or higher,
+This role requires Ansible 2.4,
 and platform requirements are listed in the metadata file.
 
 ## Testing
 
-This role contains two tests methods :
-- locally using Vagrant
-- automatically with Travis **Not working due to paths used by Travis box :/**
+This role use [Molecule](https://github.com/metacloud/molecule/) to run tests.
 
-### Testing dependencies
-- install [Vagrant](https://www.vagrantup.com)
-- install [Vagrant serverspec plugin](https://github.com/jvoorhis/vagrant-serverspec)
-    $ vagrant plugin install vagrant-serverspec
-- install ruby dependencies
-    $ bundle install
+Local and Travis tests run tests on Docker by default.
+See molecule documentation to use other backend.
+
+Currently, tests are done on:
+- Ubuntu Xenial
+
+and use:
+- Ansible 2.4.x
+- Ansible 2.5.x
 
 ### Running tests
 
-#### Run playbook and test
+#### Using Docker driver
 
-- if Vagrant box not running
-    > $ vagrant up
+```
+$ tox
+```
 
-- if Vagrant box running
-    > $ vagrant provision
-
-## How ...
-
-Before using this role, you should read the [the vars file used by tests](./tests/test_vars.yml) file, and
-[the default files](./defaults/main.yml) to check all needed examples.
-
-### Configure daemons (.ini)
-
-The **shinken_daemon_defaults** contains the base settings for all daemons,
-and they can be overloaded with specific daemon settings, with these vars :
-* shinken_brokerd
-* shinken_pollerd
-* shinken_reactionnerd
-* shinken_receiverd
-* shinken_schedulerd
-
-### Define objects
-
-All objects are defined by a dictionnaries list, using shinken keys names.
-You can find examples in [the vars file used by tests](./tests/test_vars).
-Daemon definitions are in [the default files](./defaults/main.yml).
-
-Some exeptions, escalations and dependencies have **escalation_name** and
-**dependency_name** additional keys to manage their file name.
 
 ### Install modules or packs
 
@@ -97,7 +73,7 @@ None
 
     - hosts: servers
       roles:
-         - { role: achaussier.shinken }
+         - { role: Temelio.shinken }
 
 ## License
 
@@ -105,7 +81,7 @@ MIT
 
 ## Author Information
 
-Alexandre Chaussier (for Temelio company)
-- http://temelio.com
-- alexandre.chaussier [at] temelio.com
+Alexandre Chaussier - Lise Machetel (for Temelio company)
+- https://temelio.com
+- lise.machetel [at] temelio.com
 

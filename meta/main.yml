@@ -1,17 +1,16 @@
 ---
 
 galaxy_info:
-  author: Alexandre Chaussier
+  author: Alexandre Chaussier - Lise Machetel
   description: Role used at Temelio to manage Shinken installation
-  company: Temelio (http://temelio.com)
+  company: Temelio (https://temelio.com)
   license: MIT
-  min_ansible_version: 2.0
+  min_ansible_version: 2.4
   platforms:
     - name: Ubuntu
       versions:
-        - trusty
+        - xenial
   galaxy_tags:
     - system
     - monitoring
 dependencies: []
-
