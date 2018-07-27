@@ -11,4 +11,3 @@ shinken_system_dependencies:
     state: "{{ shinken_system_dependencies_state }}"
   - name: 'python-setuptools'
     state: "{{ shinken_system_dependencies_state }}"
-

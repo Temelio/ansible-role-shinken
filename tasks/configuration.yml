@@ -11,11 +11,17 @@
   register: shinken_files_to_remove
   changed_when: False
   when:
-    - "{{ shinken_clear_configuration_after_install }}"
-    - "{{ shinken_system_packages_install.changed
+    - shinken_clear_configuration_after_install
+    - (shinken_system_packages_install.changed
           or shinken_pip_packages_install.changed
           or shinken_modules_install_shinken_io.changed
-          or shinken_modules_install_custom.changed }}"
+          or shinken_modules_install_custom.changed)
+  tags:
+    - 'role::shinken'
+    - 'role::shinken::config'
+    - 'role::shinken::init'
+    - 'role::shinken::install'
+    - 'role::shinken::upgrade_config'
 
 
 - name: Remove default configuration
@@ -25,11 +31,17 @@
     state: 'absent'
   with_items: "{{ shinken_files_to_remove.stdout_lines }}"
   when:
-    - "{{ shinken_clear_configuration_after_install }}"
-    - "{{ shinken_system_packages_install.changed
+    - shinken_clear_configuration_after_install
+    - (shinken_system_packages_install.changed
           or shinken_pip_packages_install.changed
           or shinken_modules_install_shinken_io.changed
-          or shinken_modules_install_custom.changed }}"
+          or shinken_modules_install_custom.changed)
+  tags:
+    - 'role::shinken'
+    - 'role::shinken::config'
+    - 'role::shinken::init'
+    - 'role::shinken::install'
+    - 'role::shinken::upgrade_config'
 
 
 - name: Create configuration folders
@@ -42,6 +54,12 @@
     state: 'directory'
   with_items: "{{ shinken_paths_configuration }}"
   notify: 'Restart Shinken'
+  tags:
+    - 'role::shinken'
+    - 'role::shinken::config'
+    - 'role::shinken::init'
+    - 'role::shinken::install'
+    - 'role::shinken::upgrade_config'
 
 
 - name: Generate main configuration file
@@ -53,6 +71,11 @@
     group: "{{ shinken_user_group }}"
     mode: "{{ shinken_config_files_mode }}"
   notify: 'Restart Shinken'
+  tags:
+    - 'role::shinken'
+    - 'role::shinken::config'
+    - 'role::shinken::init'
+    - 'role::shinken::install'
 
 
 - name: Generate daemons configuration files
@@ -70,6 +93,12 @@
     - "{{ shinken_daemon_defaults | combine(shinken_reactionnerd) }}"
     - "{{ shinken_daemon_defaults | combine(shinken_receiverd) }}"
     - "{{ shinken_daemon_defaults | combine(shinken_schedulerd) }}"
+  tags:
+    - 'role::shinken'
+    - 'role::shinken::config'
+    - 'role::shinken::init'
+    - 'role::shinken::install'
+    - 'role::shinken::upgrade_config'
 
 
 - name: Generate brokers definition files
@@ -82,6 +111,12 @@
     mode: "{{ shinken_config_files_mode }}"
   notify: 'Restart Shinken'
   with_items: "{{ shinken_brokers }}"
+  tags:
+    - 'role::shinken'
+    - 'role::shinken::config'
+    - 'role::shinken::init'
+    - 'role::shinken::install'
+    - 'role::shinken::upgrade_config'
 
 
 - name: Generate schedulers definition files
@@ -95,6 +130,12 @@
     mode: "{{ shinken_config_files_mode }}"
   notify: 'Restart Shinken'
   with_items: "{{ shinken_schedulers }}"
+  tags:
+    - 'role::shinken'
+    - 'role::shinken::config'
+    - 'role::shinken::init'
+    - 'role::shinken::install'
+    - 'role::shinken::upgrade_config'
 
 
 - name: Generate receivers definition files
@@ -108,6 +149,12 @@
     mode: "{{ shinken_config_files_mode }}"
   notify: 'Restart Shinken'
   with_items: "{{ shinken_receivers }}"
+  tags:
+    - 'role::shinken'
+    - 'role::shinken::config'
+    - 'role::shinken::init'
+    - 'role::shinken::install'
+    - 'role::shinken::upgrade_config'
 
 
 - name: Generate reactionners definition files
@@ -121,6 +168,12 @@
     mode: "{{ shinken_config_files_mode }}"
   notify: 'Restart Shinken'
   with_items: "{{ shinken_reactionners }}"
+  tags:
+    - 'role::shinken'
+    - 'role::shinken::config'
+    - 'role::shinken::init'
+    - 'role::shinken::install'
+    - 'role::shinken::upgrade_config'
 
 
 - name: Generate pollers definition files
@@ -133,6 +186,12 @@
     mode: "{{ shinken_config_files_mode }}"
   notify: 'Restart Shinken'
   with_items: "{{ shinken_pollers }}"
+  tags:
+    - 'role::shinken'
+    - 'role::shinken::config'
+    - 'role::shinken::init'
+    - 'role::shinken::install'
+    - 'role::shinken::upgrade_config'
 
 
 - name: Generate arbiters definition files
@@ -145,6 +204,12 @@
     mode: "{{ shinken_config_files_mode }}"
   notify: 'Restart Shinken'
   with_items: "{{ shinken_arbiters }}"
+  tags:
+    - 'role::shinken'
+    - 'role::shinken::config'
+    - 'role::shinken::init'
+    - 'role::shinken::install'
+    - 'role::shinken::upgrade_config'
 
 
 - name: Generate modules configuration files
@@ -157,6 +222,12 @@
     mode: "{{ shinken_config_files_mode }}"
   notify: 'Restart Shinken'
   with_items: "{{ shinken_modules }}"
+  tags:
+    - 'role::shinken'
+    - 'role::shinken::config'
+    - 'role::shinken::init'
+    - 'role::shinken::install'
+    - 'role::shinken::upgrade_config'
 
 
 - name: Generate resources files
@@ -169,6 +240,12 @@
     mode: "{{ shinken_config_files_mode }}"
   notify: 'Restart Shinken'
   with_items: "{{ shinken_resources }}"
+  tags:
+    - 'role::shinken'
+    - 'role::shinken::config'
+    - 'role::shinken::init'
+    - 'role::shinken::install'
+    - 'role::shinken::upgrade_config'
 
 
 - name: Generate hosts templates files
@@ -181,6 +258,12 @@
     mode: "{{ shinken_config_files_mode }}"
   notify: 'Restart Shinken'
   with_items: "{{ shinken_host_templates }}"
+  tags:
+    - 'role::shinken'
+    - 'role::shinken::config'
+    - 'role::shinken::init'
+    - 'role::shinken::install'
+    - 'role::shinken::upgrade_config'
 
 
 - name: Generate hosts definition files
@@ -193,6 +276,12 @@
     mode: "{{ shinken_config_files_mode }}"
   notify: 'Restart Shinken'
   with_items: "{{ shinken_hosts }}"
+  tags:
+    - 'role::shinken'
+    - 'role::shinken::config'
+    - 'role::shinken::init'
+    - 'role::shinken::install'
+    - 'role::shinken::upgrade_config'
 
 
 - name: Generate services templates files
@@ -206,6 +295,12 @@
     mode: "{{ shinken_config_files_mode }}"
   notify: 'Restart Shinken'
   with_items: "{{ shinken_service_templates }}"
+  tags:
+    - 'role::shinken'
+    - 'role::shinken::config'
+    - 'role::shinken::init'
+    - 'role::shinken::install'
+    - 'role::shinken::upgrade_config'
 
 
 - name: Generate services definition files
@@ -220,6 +315,12 @@
     mode: "{{ shinken_config_files_mode }}"
   notify: 'Restart Shinken'
   with_items: "{{ shinken_services }}"
+  tags:
+    - 'role::shinken'
+    - 'role::shinken::config'
+    - 'role::shinken::init'
+    - 'role::shinken::install'
+    - 'role::shinken::upgrade_config'
 
 
 - name: Generate realms definition files
@@ -232,6 +333,12 @@
     mode: "{{ shinken_config_files_mode }}"
   notify: 'Restart Shinken'
   with_items: "{{ shinken_realms }}"
+  tags:
+    - 'role::shinken'
+    - 'role::shinken::config'
+    - 'role::shinken::init'
+    - 'role::shinken::install'
+    - 'role::shinken::upgrade_config'
 
 
 - name: Generate contacts templates files
@@ -245,6 +352,12 @@
     mode: "{{ shinken_config_files_mode }}"
   notify: 'Restart Shinken'
   with_items: "{{ shinken_contact_templates }}"
+  tags:
+    - 'role::shinken'
+    - 'role::shinken::config'
+    - 'role::shinken::init'
+    - 'role::shinken::install'
+    - 'role::shinken::upgrade_config'
 
 
 - name: Generate contacts definition files
@@ -257,6 +370,12 @@
     mode: "{{ shinken_config_files_mode }}"
   notify: 'Restart Shinken'
   with_items: "{{ shinken_contacts }}"
+  tags:
+    - 'role::shinken'
+    - 'role::shinken::config'
+    - 'role::shinken::init'
+    - 'role::shinken::install'
+    - 'role::shinken::upgrade_config'
 
 
 - name: Generate contactgroups definition files
@@ -270,6 +389,12 @@
     mode: "{{ shinken_config_files_mode }}"
   notify: 'Restart Shinken'
   with_items: "{{ shinken_contactgroups }}"
+  tags:
+    - 'role::shinken'
+    - 'role::shinken::config'
+    - 'role::shinken::init'
+    - 'role::shinken::install'
+    - 'role::shinken::upgrade_config'
 
 
 - name: Generate hostgroups definition files
@@ -283,6 +408,12 @@
     mode: "{{ shinken_config_files_mode }}"
   notify: 'Restart Shinken'
   with_items: "{{ shinken_hostgroups }}"
+  tags:
+    - 'role::shinken'
+    - 'role::shinken::config'
+    - 'role::shinken::init'
+    - 'role::shinken::install'
+    - 'role::shinken::upgrade_config'
 
 
 - name: Generate servicegroups definition files
@@ -296,6 +427,12 @@
     mode: "{{ shinken_config_files_mode }}"
   notify: 'Restart Shinken'
   with_items: "{{ shinken_servicegroups }}"
+  tags:
+    - 'role::shinken'
+    - 'role::shinken::config'
+    - 'role::shinken::init'
+    - 'role::shinken::install'
+    - 'role::shinken::upgrade_config'
 
 
 - name: Generate timeperiods definition files
@@ -309,6 +446,12 @@
     mode: "{{ shinken_config_files_mode }}"
   notify: 'Restart Shinken'
   with_items: "{{ shinken_timeperiods }}"
+  tags:
+    - 'role::shinken'
+    - 'role::shinken::config'
+    - 'role::shinken::init'
+    - 'role::shinken::install'
+    - 'role::shinken::upgrade_config'
 
 
 - name: Generate notificationways definition files
@@ -322,6 +465,12 @@
     mode: "{{ shinken_config_files_mode }}"
   notify: 'Restart Shinken'
   with_items: "{{ shinken_notificationways }}"
+  tags:
+    - 'role::shinken'
+    - 'role::shinken::config'
+    - 'role::shinken::init'
+    - 'role::shinken::install'
+    - 'role::shinken::upgrade_config'
 
 
 - name: Generate commands definition files
@@ -335,6 +484,12 @@
     mode: "{{ shinken_config_files_mode }}"
   notify: 'Restart Shinken'
   with_items: "{{ shinken_commands }}"
+  tags:
+    - 'role::shinken'
+    - 'role::shinken::config'
+    - 'role::shinken::init'
+    - 'role::shinken::install'
+    - 'role::shinken::upgrade_config'
 
 
 - name: Generate host dependencies definition files
@@ -348,6 +503,12 @@
     mode: "{{ shinken_config_files_mode }}"
   notify: 'Restart Shinken'
   with_items: "{{ shinken_host_dependencies }}"
+  tags:
+    - 'role::shinken'
+    - 'role::shinken::config'
+    - 'role::shinken::init'
+    - 'role::shinken::install'
+    - 'role::shinken::upgrade_config'
 
 
 - name: Generate service dependencies definition files
@@ -361,6 +522,12 @@
     mode: "{{ shinken_config_files_mode }}"
   notify: 'Restart Shinken'
   with_items: "{{ shinken_service_dependencies }}"
+  tags:
+    - 'role::shinken'
+    - 'role::shinken::config'
+    - 'role::shinken::init'
+    - 'role::shinken::install'
+    - 'role::shinken::upgrade_config'
 
 
 - name: Generate host escalations definition files
@@ -374,6 +541,12 @@
     mode: "{{ shinken_config_files_mode }}"
   notify: 'Restart Shinken'
   with_items: "{{ shinken_host_escalations }}"
+  tags:
+    - 'role::shinken'
+    - 'role::shinken::config'
+    - 'role::shinken::init'
+    - 'role::shinken::install'
+    - 'role::shinken::upgrade_config'
 
 
 - name: Generate service escalations definition files
@@ -387,3 +560,9 @@
     mode: "{{ shinken_config_files_mode }}"
   notify: 'Restart Shinken'
   with_items: "{{ shinken_service_escalations }}"
+  tags:
+    - 'role::shinken'
+    - 'role::shinken::config'
+    - 'role::shinken::init'
+    - 'role::shinken::install'
+    - 'role::shinken::upgrade_config'

@@ -2,7 +2,7 @@
 
 # All tasks about Shinken installation
 
-- name: Create shinken group
+- name: 'INSTALL | Create shinken group'
   become: True
   group:
     name: "{{ shinken_user_group }}"
@@ -10,7 +10,7 @@
     system: False
 
 
-- name: Create shinken user
+- name: 'INSTALL | Create shinken user'
   become: True
   user:
     name: "{{ shinken_user_name }}"
@@ -23,7 +23,7 @@
     update_password: "{{ shinken_user_update_password }}"
 
 
-- name: Create .ssh folder
+- name: 'INSTALL | Create .ssh folder'
   become: True
   file:
     name: "{{ shinken_user_home }}/.ssh"
@@ -33,7 +33,7 @@
     state: 'directory'
 
 
-- name: Install shinken system dependencies
+- name: 'INSTALL | Install shinken system dependencies'
   become: True
   package:
     name: "{{ item.name }}"
@@ -42,8 +42,7 @@
   with_items: "{{ shinken_system_dependencies
                     + shinken_system_additional_packages }}"
 
-
-- name: Install shinken pip packages with specific version
+- name: 'INSTALL | Install shinken pip packages with specific version'
   become: True
   pip:
     name: "{{ item.name }}"
@@ -52,10 +51,11 @@
   register: 'shinken_pip_packages_install'
   notify: 'Restart Shinken'
   with_items: "{{ shinken_pip_packages + shinken_pip_additional_packages }}"
-  when: "{{ item.version is defined }}"
+  when:
+    - "( item.version is defined )"
 
 
-- name: Install shinken pip packages without version
+- name: 'INSTALL | Install shinken pip packages without version'
   become: True
   pip:
     name: "{{ item.name }}"
@@ -63,44 +63,184 @@
   register: 'shinken_pip_packages_install'
   with_items: "{{ shinken_pip_packages + shinken_pip_additional_packages }}"
   notify: 'Restart Shinken'
-  when: "{{ item.version is not defined }}"
+  when:
+    - "( item.version is not defined )"
+
+- name: 'INSTALL | create directories'
+  file:
+    path: "{{ item.path }}"
+    state: 'directory'
+    owner: "{{ shinken_user_name }}"
+    group: "{{ shinken_user_group }}"
+    mode: '775'
+  with_items: "{{ shinken_directories }}"
 
 
-- name: Configure daemon start
+- name: 'INSTALL | check if files init.d exists'
+  find:
+    path: "/etc/init.d/"
+    pattern: "{{ item.path }}"
+  with_items: "{{ check_files_4_shinken }}"
+  register: 'initd_files_already_present'
+  when:
+    - '(is_initd_managed_system | bool)'
+
+- name: 'INSTALL | register init.d files to copy'
+  find:
+    path: "{{ path_to_pip_install_shinken }}/etc/init.d/"
+  register: 'init_d_to_copy'
+  when:
+    - (is_initd_managed_system | bool)
+    - initd_files_already_present.matched == 0
+
+- name: 'INSTALL | copy init.d shinken files'
+  become: True
+  copy:
+    remote_src: True
+    src: "{{ item }}"
+    dest: '/etc/init.d/'
+    mode: '755'
+  with_items: "{{ init_d_to_copy.stdout_lines }}"
+  when:
+    - (is_initd_managed_system | bool)
+    - initd_files_already_present.matched == 0
+
+
+- name: 'INSTALL | check if bin files exists'
+  find:
+    path: "/usr/bin/{{ item.path }}"
+  with_items: "{{ check_files_4_shinken }}"
+  register: 'bin_files_already_present'
+
+- name: 'INSTALL | register bin files to copy'
+  find:
+    path: "{{ path_to_pip_install_shinken }}/usr/bin/"
+    pattern: "shinken*"
+  register: 'bin_to_copy'
+  when:
+    - bin_files_already_present.results[0].matched == 0
+
+- name: 'Instal | copy bin shinken files'
+  become: True
+  copy:
+    remote_src: True
+    src: "{{ item.path }}"
+    dest: '/usr/bin/'
+    mode: '755'
+    owner: "{{ shinken_user_name }}"
+    group: "{{ shinken_user_group }}"
+  with_items: "{{ bin_to_copy.files }}"
+  when:
+    - bin_files_already_present.results[0].matched == 0
+
+
+- name: 'INSTALL | check if etc files exists'
+  find:
+    path: '/etc/shinken/'
+    pattern: 'shinken.cfg'
+  register: 'etc_files_already_present'
+
+- name: 'Instal | copy etc/shinken files'
+  become: True
+  become_user: "{{ shinken_user_name }}"
+  command: "cp -dR {{ path_to_pip_install_shinken }}/etc/shinken/ /etc/"
+  when:
+    - etc_files_already_present.matched == 0
+
+
+- name: 'INSTALL | check if var files exists'
+  find:
+    path: '/var/lib//shinken/inventory/'
+    recurse: yes
+  register: 'var_files_already_present'
+
+- name: 'INSTALL | copy var files'
+  become: True
+  become_user: "{{ shinken_user_name }}"
+  command: "cp -dR {{ path_to_pip_install_shinken }}/var/lib/shinken/ /var/lib/"
+  when:
+    - var_files_already_present.matched == 0
+
+
+- name: 'INSTALL | check directories'
+  file:
+    path: "{{ item.path }}"
+    state: 'directory'
+    owner: "{{ shinken_user_name }}"
+    group: "{{ shinken_user_group }}"
+    mode: '775'
+  with_items: "{{ shinken_directories }}"
+
+
+- name: 'INSTALL | copy systemd shinken files'
+  become: True
+  template:
+    src: "{{ role_path }}/templates/systemd.service.j2"
+    dest: "{{ item.dest }}"
+    owner: "{{ item.owner | default('root') }}"
+    group: "{{ item.group | default('root') }}"
+    mode: "{{ item.mode | default('0644') }}"
+  with_items: "{{ shinken_service_systemd }}"
+  when:
+    - "not (is_initd_managed_system | bool)"
+
+- name: 'INSTALL | systemd daemon-reload'
+  systemd:
+    name: 'systemd'
+    daemon_reload: true
+  when:
+    - "not (is_initd_managed_system | bool)"
+
+
+- name: 'Configure daemon start with systemd'
   become: True
   service:
     name: "shinken-{{ item.key }}"
     enabled: "{{ item.value.enabled }}"
   with_dict: "{{ shinken_daemons }}"
+  when:
+    - "(is_initd_managed_system | bool)"
 
 
-- name: Initialize Shinken
+- name: 'Initialize Shinken'
   become: True
-  shell: "su - {{ shinken_user_name }} -c '/usr/bin/shinken --init'"
+  become_user: "{{ shinken_user_name }}"
+  shell: '/usr/bin/shinken --init'
   args:
     creates: "{{ shinken_user_home }}/.shinken.ini"
   notify: 'Restart Shinken'
   register: 'shinken_check_initialize'
 
 
-- name: Get list of installed modules and packs
+- name: 'Get list of installed modules and packs'
   become: True
-  shell: "su - {{ shinken_user_name }} -c 'shinken inventory'"
+  become_user: "{{ shinken_user_name }}"
+  shell: "shinken inventory"
   changed_when: False
   register: 'shinken_modules_packs_installed'
 
-
-- name: Install additional modules or packs using shinken.io method
-  include: "{{ role_path }}/tasks/module_installation_with_shinken_io.yml"
+- name: 'Install additional modules or packs using shinken.io'
+  become: True
+  become_user: "{{ shinken_user_name }}"
+  shell: "shinken install {{ item.name }}"
   register: 'shinken_modules_install_shinken_io'
   with_items: "{{ shinken_modules + shinken_packs }}"
   notify: 'Restart Shinken'
-  when: "{{ item.method == 'shinken_io' }}"
+  when: (item.name not in shinken_modules_packs_installed.stdout_lines and item.method == 'shinken_io')
 
 
-- name: Install additional modules or packs using custom git method
+- name: 'Update additional modules or packs using shinken.io
+  become: True'
+  become_user: "{{ shinken_user_name }}"
+  shell: "shinken update {{ item.name }}"
+  register: 'shinken_modules_update_shinken_io'
+  with_items: "{{ shinken_modules + shinken_packs }}"
+  notify: 'Restart Shinken'
+  when: (item.name in shinken_modules_packs_installed.stdout_lines and item.method == 'shinken_io')
+
+- name: 'Install additional modules or packs using custom git method'
   include: "{{ role_path }}/tasks/module_installation_with_git.yml"
   register: 'shinken_modules_install_custom'
   with_items: "{{ shinken_modules + shinken_packs}}"
   notify: 'Restart Shinken'
-  when: "{{ item.method == 'custom_git' }}"
+  when: item.method == 'custom_git'

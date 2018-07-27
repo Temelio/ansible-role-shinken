@@ -2,31 +2,44 @@
 
 # Main tasks file for shinken role
 
-- name: Load distribution variables
-  include_vars: "{{ role_path }}/vars/{{ ansible_distribution | lower }}.yml"
+- name: 'INIT | Manage variables to use for our target'
+  include: "{{ role_path }}/tasks/manage_variables.yml"
   tags:
-    - 'shinken'
-    - 'install'
+    - 'role::shinken'
+    - 'role::shinken::config'
+    - 'role::shinken::init'
+    - 'role::shinken::install'
+    - 'role::shinken::upgrade_config'
 
 
-- name: Manage Shinken installation tasks
+- name: 'INIT | Manage Shinken installation tasks'
   include: "{{ role_path }}/tasks/installation.yml"
   tags:
-    - 'shinken'
-    - 'install'
+    - 'role::shinken'
+    - 'role::shinken::config'
+    - 'role::shinken::init'
+    - 'role::shinken::install'
 
 
-- name: Manage Shinken configuration tasks
+- name: 'INIT | Manage Shinken configuration tasks'
   include: "{{ role_path }}/tasks/configuration.yml"
   tags:
-    - 'shinken'
-    - 'configuration'
+    - 'role::shinken'
+    - 'role::shinken::config'
+    - 'role::shinken::init'
+    - 'role::shinken::install'
+    - 'role::shinken::upgrade_config'
 
 
-- name: Check daemon state is good
+- name: 'INIT | Check daemon state is good'
   become: True
   service:
     name: "shinken-{{ item.key }}"
     state: "{{ item.value.started | ternary('started', 'stopped') }}"
   with_dict: "{{ shinken_daemons }}"
-
+  tags:
+    - 'role::shinken'
+    - 'role::shinken::config'
+    - 'role::shinken::init'
+    - 'role::shinken::install'
+    - 'role::shinken::upgrade_config'
